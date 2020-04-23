@@ -13,13 +13,14 @@ const config = {
     'background': './background.js',
     'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
+    'content-script/content-script': './content-script/content-script.ts',
   },
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.ts', '.js', '.vue'],
   },
   module: {
     rules: [
