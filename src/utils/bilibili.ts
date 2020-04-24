@@ -1,4 +1,4 @@
-export function isBilibili() {
+export function hasVideo() {
   return location.host.includes('bilibili.com') && location.pathname.startsWith('/video/');
 }
 
@@ -9,7 +9,9 @@ export function getVid() {
 export function getVideoDom(): HTMLVideoElement {
   const dom = document.querySelector('.bilibili-player-video');
   if (!dom) {
-    alert('没有视频在播放!');
+    // alert('没有视频在播放!');
+
+    return false;
   }
   return dom.childNodes.item(0) as HTMLVideoElement;
 }

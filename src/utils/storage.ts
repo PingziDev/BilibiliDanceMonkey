@@ -38,10 +38,8 @@ export function clearStorage(key: string) {
   chrome.storage.sync.remove(key);
 }
 
-
 export function saveItems(vid: string, items: ControlItem[]) {
   window.localStorage.setItem(vid, JSON.stringify(items));
-
 }
 
 export function clearItems(vid) {
