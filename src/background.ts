@@ -1,4 +1,6 @@
 import { sendMessageToContentScript } from './utils/message';
+import { getStorage, setStorage } from './utils/storage';
+import { Config } from './utils/types';
 
 global.browser = require('webextension-polyfill');
 
@@ -23,4 +25,12 @@ chrome.commands.onCommand.addListener(function(command) {
   sendMessageToContentScript(command);
 });
 
-
+// 默认设置
+getStorage('config').then(res => {
+  if (!res) {
+    const config: Config = {
+      bufferTime: 4,
+    };
+    setStorage('config', config);
+  }
+});

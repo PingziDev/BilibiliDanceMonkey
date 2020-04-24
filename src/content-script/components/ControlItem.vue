@@ -39,6 +39,7 @@
       },
       setEnd() {
         this.end = this.video.currentTime || 0;
+        this.play()
       },
       play() {
         this.$emit('play', this.start, this.end);

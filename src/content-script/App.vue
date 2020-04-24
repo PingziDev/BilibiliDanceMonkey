@@ -89,6 +89,22 @@
         this.playing = playing === undefined ? !this.playing : playing;
         this.playing ? this.video.play() : this.video.pause();
       },
+      setSpeed(speed) {
+        this.video.playbackRate = speed;
+      },
+      delItem(key) {
+        this.items.splice(key, 1);
+      },
+      addItem(start, end) {
+        const duration = this.video.duration;
+        if (round(end) == round(duration)) {
+          return;
+        }
+        const { bufferTime } = this.$config;
+        const newItem = { playing: false, start: Math.max(0, end - bufferTime), end: duration };
+        this.items.push(newItem);
+        this.playItem(this.items.length - 1, newItem.start, newItem.end);
+      },
       playItem(index, start, end) {
         this.items.forEach((v, i) => {
           v.playing = i === index;
@@ -102,19 +118,6 @@
         this.timer = setInterval(() => {
           this.video.currentTime = start;
         }, (end - start) * 1000);
-      },
-      setSpeed(speed) {
-        this.video.playbackRate = speed;
-      },
-      delItem(key) {
-        this.items.splice(key, 1);
-      },
-      addItem(start, end) {
-        const duration = this.video.duration;
-        if (round(end) == round(duration)) {
-          return;
-        }
-        this.items.push({ playing: false, start: end, end: duration });
       },
     },
   };

@@ -4,6 +4,8 @@ import App from './App.vue';
 import { isBilibili } from '../utils/bilibili';
 import { sendMessage } from './message';
 import store from './../store';
+import { getStorage } from '../utils/storage';
+import { Config } from '../utils/types';
 
 global.browser = require('webextension-polyfill');
 
@@ -16,6 +18,10 @@ if (isBilibili()) {
     document.body.insertBefore(el, document.body.firstChild);
 
     Vue.prototype.$sendMessage = sendMessage;
+
+    getStorage('config').then((res: Config) => {
+      Vue.prototype.$config = res;
+    });
     Vue.filter('time', (time: number | string) => {
       return typeof time === 'number' ? time.toFixed(2) : time;
     });

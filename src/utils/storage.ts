@@ -23,11 +23,12 @@ export async function setStorage(key: string, value: ValueType): Promise<void> {
 
 export async function getStorage(key): Promise<ValueType> {
   return new Promise(resolve => {
-    chrome.storage.sync.get(key, (res) => {
+    chrome.storage.sync.get(key, (items) => {
+      let res = items[key];
       if (typeof res === 'string') {
         res = JSON.parse(res);
       }
-      resolve(res[key]);
+      resolve(res);
     });
   });
 }
