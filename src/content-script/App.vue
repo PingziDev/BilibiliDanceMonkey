@@ -1,7 +1,7 @@
 <template>
 	<div class="panel">
 		<button @click="sendMsg">test1</button>
-		<button @click="$sendMessage">test2</button>
+		<button @click="$sendMessage('hahaha')">test2</button>
 		<button>test3</button>
 		<button>test4</button>
 		<button>test5</button>
@@ -12,6 +12,8 @@
 
 <script>
   
+  import { sendMessage } from './message';
+  
   export default {
     name: 'App',
     mounted() {
@@ -19,6 +21,8 @@
     },
     methods: {
       sendMsg() {
+        this.$sendMessage('sdfdsfkldsjfjdskl');
+        sendMessage('1231312');
       },
     },
   };

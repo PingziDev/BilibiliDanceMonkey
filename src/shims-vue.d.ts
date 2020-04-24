@@ -3,4 +3,4 @@ declare module '*.vue' {
   export default Vue;
 }
 
-declare let global: Window;
+declare let global: Window | any;
