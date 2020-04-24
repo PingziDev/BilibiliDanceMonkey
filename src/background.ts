@@ -1,6 +1,4 @@
 import { sendMessageToContentScript } from './utils/message';
-import { getStorage, setStorage } from './utils/storage';
-import { Config } from './utils/types';
 
 global.browser = require('webextension-polyfill');
 
@@ -17,20 +15,16 @@ function addMessageListener() {
 
 }
 
-addMessageListener();
+chrome.runtime.onInstalled.addListener(function() {
+
+  addMessageListener();
 
 // 监听keyboard commands
-chrome.commands.onCommand.addListener(function(command) {
-  console.log('Command:', command);
-  sendMessageToContentScript(command);
-});
+  chrome.commands.onCommand.addListener(function(command) {
+    console.log('Command:', command);
+    sendMessageToContentScript(command);
+  });
 
-// 默认设置
-getStorage('config').then(res => {
-  if (!res) {
-    const config: Config = {
-      bufferTime: 4,
-    };
-    setStorage('config', config);
-  }
-});
+
+
+})

@@ -16,4 +16,7 @@ export default {
       state.speed = 0.1;
     }
   },
+  [types.SET_CONFIG](state, payload) {
+    state.config = payload;
+  },
 };

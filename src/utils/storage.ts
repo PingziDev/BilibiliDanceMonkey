@@ -11,6 +11,7 @@ export async function setStorage(key: string, value: ValueType): Promise<void> {
   if (!chrome.storage) {
     throw new Error('不支持chrome.storage');
   }
+  console.log('value===',value)
   if (typeof value === 'object') {
     value = JSON.stringify(value);
   }

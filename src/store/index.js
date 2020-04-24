@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     foo: 'bar',
     speed: 1,
+    config: false,
   },
   getters,
   mutations,

@@ -14,6 +14,7 @@ export function notification() {
 //popup或者bg向content主动发送消息
 export function sendMessageToContentScript(message: any, callback?: Function) {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    console.log('tabs===',tabs)
     chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
       if (callback) callback(response);
     });
