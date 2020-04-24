@@ -10,7 +10,7 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    'background': './background.js',
+    'background': './background.ts',
     'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
     'content-script/content-script': './content-script/content-script.ts',

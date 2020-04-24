@@ -2,6 +2,7 @@ import './content-script.css';
 import Vue from 'vue';
 import App from './App.vue';
 import { isBilibili } from '../utils/bilibili';
+import { sendMessage } from './message';
 
 global.browser = require('webextension-polyfill');
 
@@ -11,6 +12,7 @@ if (isBilibili()) {
     const el = document.createElement('div');
     el.id = 'app';
     document.body.insertBefore(el, document.body.firstChild);
+    Vue.prototype.$sendMessage = sendMessage;
     new Vue({
       el: el,
       render: h => {

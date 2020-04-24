@@ -1,7 +1,7 @@
 <template>
 	<div class="panel">
 		<button @click="sendMsg">test1</button>
-		<button>test2</button>
+		<button @click="$sendMessage">test2</button>
 		<button>test3</button>
 		<button>test4</button>
 		<button>test5</button>
@@ -19,7 +19,6 @@
     },
     methods: {
       sendMsg() {
-        console.log('12313===', 12313);
       },
     },
   };
