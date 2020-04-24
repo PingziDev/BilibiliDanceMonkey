@@ -7,6 +7,16 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "notifications",
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ],
   "browser_action": {
     "default_title": "my-extension",
     "default_popup": "popup/popup.html"
@@ -18,6 +28,8 @@
     "page": "options/options.html",
     "chrome_style": true
   },
+  "web_accessible_resources": ["inject.js"],
+
   "content_scripts": [
     {
       "matches": [
@@ -25,6 +37,9 @@
       ],
       "js": [
         "content-script/content-script.js"
+      ],
+      "css": [
+        "content-script/content-script.css"
       ],
       "run_at": "document_start"
     }
