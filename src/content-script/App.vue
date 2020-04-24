@@ -5,7 +5,10 @@
 		<div v-show="show">
 			<button @click="sendMsg">test1</button>
 			<button @click="togglePlay()">{{playing?'播放中':'暂停中'}}</button>
-			<button>test7</button>
+			<div>
+				<button @click="setSpeed(i*0.1)" v-for="i in 9">0.{{i}}倍速</button>
+				<button @click="setSpeed(1)">原速</button>
+			</div>
 		</div>
 		<keymap></keymap>
 	</div>
