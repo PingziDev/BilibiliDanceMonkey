@@ -9,10 +9,16 @@ global.browser = require('webextension-polyfill');
 if (isBilibili()) {
   document.addEventListener('DOMContentLoaded', () => {
     // https://stackoverflow.com/questions/59816151/in-chrome-extension-how-to-use-content-script-to-inject-a-vue-page
+
     const el = document.createElement('div');
     el.id = 'app';
     document.body.insertBefore(el, document.body.firstChild);
+
     Vue.prototype.$sendMessage = sendMessage;
+    Vue.filter('time', (time: number | string) => {
+      return typeof time === 'number' ? time.toFixed(2) : time;
+    });
+
     new Vue({
       el: el,
       render: h => {
