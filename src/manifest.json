@@ -28,7 +28,6 @@
     "page": "options/options.html",
     "chrome_style": true
   },
-  "web_accessible_resources": ["inject.js"],
 
   "content_scripts": [
     {
