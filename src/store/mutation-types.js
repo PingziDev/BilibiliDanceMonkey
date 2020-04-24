@@ -3,3 +3,4 @@ export const SET_SPEED = 'SET_SPEED';
 export const FASTER = 'FASTER';
 export const SLOWER = 'SLOWER';
 export const SET_CONFIG = 'SET_CONFIG';
+export const SET_URL = 'SET_URL';

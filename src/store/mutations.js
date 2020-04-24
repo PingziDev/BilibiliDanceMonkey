@@ -19,4 +19,7 @@ export default {
   [types.SET_CONFIG](state, payload) {
     state.config = payload;
   },
+  [types.SET_URL](state, payload) {
+    state.url = payload;
+  },
 };

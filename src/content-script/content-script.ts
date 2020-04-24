@@ -5,8 +5,8 @@ import { isBilibili } from '../utils/bilibili';
 import { sendMessage } from './message';
 import store from './../store';
 import { getStorage, setStorage } from '../utils/storage';
-import { Commands } from '../utils/types';
-import { FASTER, SET_CONFIG, SET_SPEED, SLOWER } from '../store/mutation-types';
+import { Commands, MessageObj, MessageType } from '../utils/types';
+import { FASTER, SET_CONFIG, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
 
 global.browser = require('webextension-polyfill');
 
@@ -51,7 +51,6 @@ if (isBilibili()) {
 
         // 处理bg传来的命令
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-          console.log('request===', request);
 
           if (typeof request === 'string') {
             switch (request) {
@@ -68,6 +67,12 @@ if (isBilibili()) {
                 store.commit(SET_SPEED, 1);
                 break;
               default:
+            }
+          } else {
+            switch ((<MessageObj>request).type) {
+              case MessageType.urlChange:
+                store.commit(SET_URL,request.value)
+                break;
             }
           }
         });

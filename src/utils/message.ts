@@ -1,4 +1,6 @@
 // 桌面通知
+import { MessageObj } from './types';
+
 export function notification() {
   if (!chrome.notifications) {
     throw new Error('不支持chrome.notifications');
@@ -12,9 +14,8 @@ export function notification() {
 }
 
 //popup或者bg向content主动发送消息
-export function sendMessageToContentScript(message: any, callback?: Function) {
+export function sendMessageToContentScript(message: string | MessageObj, callback?: Function) {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    console.log('tabs===',tabs)
     chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
       if (callback) callback(response);
     });

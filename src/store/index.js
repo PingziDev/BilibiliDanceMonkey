@@ -12,6 +12,7 @@ export default new Vuex.Store({
     foo: 'bar',
     speed: 1,
     config: false,
+    url: location.href,
   },
   getters,
   mutations,

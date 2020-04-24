@@ -1,5 +1,6 @@
 <template>
 	<div class="panel">
+		{{vid}}
 		<div v-if="!config">获取配置中...</div>
 		<div v-else>
 			<button @click="show=!show" class="panel-toggle">扒舞</button>
@@ -35,10 +36,10 @@
 
 <script>
   
-  import { getVid, getVideoDom } from '../utils/bilibili';
+  import { getVideoDom } from '../utils/bilibili';
   import Keymap from './components/Keymap';
   import ControlItem from './components/ControlItem';
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../utils/storage';
   
@@ -59,9 +60,7 @@
     },
     computed: {
       ...mapState(['speed', 'config']),
-      vid() {
-        return getVid();
-      },
+      ...mapGetters(['vid']),
       defaultItems() {
         return [
           {
@@ -76,10 +75,13 @@
       speed: function(now) {
         this.setSpeed(now);
       },
+      vid:function(now,old) {
+        console.log('nowOld===',now,old)
+        this.$forceUpdate()
+      }
     },
     mounted() {
       this.video = getVideoDom();
-  
       // get ratio
       this.video.addEventListener('loadedmetadata', () => {
         this.ratio = this.video.videoWidth / this.video.videoHeight;
