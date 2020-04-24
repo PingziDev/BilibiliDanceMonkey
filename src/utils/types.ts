@@ -17,7 +17,8 @@ export type MessageObj = {
 }
 
 export enum MessageType {
-  urlChange
+  urlChange,
+  openTab
 }
 
 

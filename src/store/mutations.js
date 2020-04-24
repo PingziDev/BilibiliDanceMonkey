@@ -1,4 +1,5 @@
 import * as types from './mutation-types';
+import { setStorage } from '../utils/storage';
 
 export default {
   [types.UPDATE_FOO](state, payload) {
@@ -21,5 +22,17 @@ export default {
   },
   [types.SET_URL](state, payload) {
     state.url = payload;
+  },
+  [types.SET_LIST](state, payload) {
+    state.list = payload;
+    setStorage('list', state.items);
+  },
+  [types.ADD_VID](state, payload) {
+    state.list[payload.vid] = payload.title;
+    setStorage('list', state.list);
+  },
+  [types.REMOVE_VID](state, vid) {
+    delete state.list[vid];
+    setStorage('list', state.list);
   },
 };

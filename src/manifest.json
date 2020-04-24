@@ -40,7 +40,9 @@
         "*://*.bilibili.com/video/BV*",
         "*://www.bilibili.com/watchlater/*",
         "*://www.bilibili.com/medialist/*",
-        "*://www.bilibili.com/blackboard/*"
+        "*://www.bilibili.com/blackboard/*",
+        "*://www.bilibili.com/*",
+        "*://*.bilibili.com/*"
       ],
       "js": [
         "content-script/content-script.js"

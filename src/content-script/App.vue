@@ -4,6 +4,11 @@
 		<div v-else>
 			<button @click="show=!show" class="panel-toggle">扒舞</button>
 			<div v-show="show">
+				<div>
+					<button @click="goToVideo(k)" v-for="(i,k) in list">
+						{{i}}
+					</button>
+				</div>
 				<div v-if="video">
 					<control></control>
 				</div>
@@ -20,6 +25,8 @@
   import { getVideoDom } from '../utils/bilibili';
   import Control from './components/Control';
   import { mapState } from 'vuex';
+  import { sendMessage } from './message';
+  import { MessageType } from '../utils/types';
   
   export default {
     name: 'App',
@@ -31,7 +38,7 @@
       };
     },
     computed: {
-      ...mapState(['config']),
+      ...mapState(['config', 'list']),
   
     },
     watch: {
@@ -45,7 +52,9 @@
       this.video = getVideoDom();
     },
     methods: {
-    
+      goToVideo(vid) {
+        sendMessage({ type: MessageType.openTab, value: 'https://www.bilibili.com/video/' + vid });
+      },
     },
   };
 </script>
@@ -59,5 +68,6 @@
 		bottom: 0;
 		right: 0;
 		z-index: 9999999999999;
+		background-color: #fff;
 	}
 </style>

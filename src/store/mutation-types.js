@@ -4,3 +4,6 @@ export const FASTER = 'FASTER';
 export const SLOWER = 'SLOWER';
 export const SET_CONFIG = 'SET_CONFIG';
 export const SET_URL = 'SET_URL';
+export const SET_LIST = 'SET_LIST';
+export const ADD_VID = 'ADD_VID';
+export const REMOVE_VID = 'REMOVE_VID';

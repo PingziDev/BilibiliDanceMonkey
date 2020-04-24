@@ -13,6 +13,7 @@ export default new Vuex.Store({
     speed: 1,
     config: false,
     url: location.href,
+    list: false,
   },
   getters,
   mutations,

@@ -5,7 +5,7 @@ import { sendMessage } from './message';
 import store from './../store';
 import { getStorage, setStorage } from '../utils/storage';
 import { Commands, MessageObj, MessageType } from '../utils/types';
-import { FASTER, SET_CONFIG, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
+import { FASTER, SET_CONFIG, SET_LIST, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
 
 global.browser = require('webextension-polyfill');
 
@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         setStorage('config', config);
         return this.$store.commit(SET_CONFIG, config);
+      });
+
+      // 以前的数据
+      getStorage('list').then(res => {
+        this.$store.commit(SET_LIST, res);
       });
 
 

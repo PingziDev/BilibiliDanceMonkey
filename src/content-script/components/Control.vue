@@ -1,5 +1,6 @@
 <template>
 	<div >
+		{{vid}}
 		<control-item
 				v-for="(v,i) in items"
 				:key="i"

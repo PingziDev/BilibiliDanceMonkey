@@ -1,5 +1,5 @@
 import { sendMessageToContentScript } from './utils/message';
-import { MessageType } from './utils/types';
+import { MessageObj, MessageType } from './utils/types';
 
 global.browser = require('webextension-polyfill');
 
@@ -7,9 +7,16 @@ global.browser = require('webextension-polyfill');
 chrome.runtime.onInstalled.addListener(function() {
 
   // 监听来自content-script的消息
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log(request, sender, sendResponse);
-    sendResponse('我是后台，我已收到你的消息：' + JSON.stringify(request));
+  chrome.runtime.onMessage.addListener(function(request: MessageObj | string, sender, sendResponse) {
+    if (typeof request === 'object') {
+      switch (request.type) {
+        case MessageType.openTab:
+          chrome.tabs.create({ url: request.value });
+          break;
+      }
+    } else {
+      console.log('request===', request);
+    }
   });
 
 
