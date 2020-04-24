@@ -32,7 +32,14 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "*://*.bilibili.com/bangumi/play/ss*",
+        "*://*.bilibili.com/bangumi/play/ep*",
+        "*://*.bilibili.com/video/av*",
+        "*://*.bilibili.com/video/bv*",
+        "*://*.bilibili.com/video/BV*",
+        "*://www.bilibili.com/watchlater/*",
+        "*://www.bilibili.com/medialist/*",
+        "*://www.bilibili.com/blackboard/*"
       ],
       "js": [
         "content-script/content-script.js"
@@ -42,5 +49,31 @@
       ],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "commands": {
+    "faster": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Up"
+      },
+      "description": "快0.1倍速"
+    },
+    "slower": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Down"
+      },
+      "description": "慢0.1倍速"
+    },
+    "speed0.5": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Left"
+      },
+      "description": "0.5倍速"
+    },
+    "speed1": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Right"
+      },
+      "description": "原速"
+    }
+  }
 }

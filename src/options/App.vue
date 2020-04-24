@@ -1,12 +1,17 @@
 <template>
   <div>
-    <p>Optionshahahahahha</p>
+    <p>{{speed}}</p>
   </div>
 </template>
 
 <script>
-export default {
+  import { mapState } from 'vuex';
+  
+  export default {
   name: 'App',
+    computed: {
+      ...mapState(['speed']),
+    },
 };
 </script>
 

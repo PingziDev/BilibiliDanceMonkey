@@ -1,3 +1,5 @@
+import { sendMessageToContentScript } from './utils/message';
+
 global.browser = require('webextension-polyfill');
 
 /**
@@ -14,3 +16,11 @@ function addMessageListener() {
 }
 
 addMessageListener();
+
+// 监听keyboard commands
+chrome.commands.onCommand.addListener(function(command) {
+  console.log('Command:', command);
+  sendMessageToContentScript(command);
+});
+
+

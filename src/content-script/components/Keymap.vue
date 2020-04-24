@@ -1,6 +1,5 @@
 <template>
 	<div>
-		KeyMap
 	</div>
 </template>
 

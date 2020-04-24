@@ -4,3 +4,4 @@ export function sendMessage(message: any) {
     // console.log('收到来自后台的回复：' + response);
   });
 }
+
