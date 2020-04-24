@@ -78,5 +78,7 @@
       },
       "description": "原速"
     }
-  }
+  },
+  "web_accessible_resources": ["assets/*"]
+
 }

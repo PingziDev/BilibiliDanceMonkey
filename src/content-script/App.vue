@@ -1,9 +1,10 @@
 <template>
-	<div class="panel">
-		<div v-if="!config">获取配置中...</div>
-		<div v-else>
-			<button @click="show=!show" class="panel-toggle">扒舞</button>
-			<div v-show="show">
+	<div class="fixed">
+		<div v-if="config" class="wrapper flex center" :class="{active:show}">
+			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">
+				<div class="monkey" :class="{active:show}" @click="show=!show"></div>
+			</el-tooltip>
+			<el-card class="box-card panel" >
 				<div>
 					<button @click="goToVideo(k)" v-for="(i,k) in list">
 						{{i}}
@@ -15,7 +16,10 @@
 				<div v-else>
 					这个页面暂不支持扒舞猴子哦~
 				</div>
-			</div>
+			</el-card>
+		</div>
+		<div v-else>
+			配置加载失败...
 		</div>
 	</div>
 </template>
@@ -27,6 +31,13 @@
   import { mapState } from 'vuex';
   import { sendMessage } from './message';
   import { MessageType } from '../utils/types';
+  import ElementUI from 'element-ui';
+  import Vue from 'vue';
+  // import 'element-ui/lib/theme-chalk/index.css';
+  import '../element/index.css';
+  import './main.less';
+  
+  Vue.use(ElementUI);
   
   export default {
     name: 'App',
@@ -60,14 +71,47 @@
 </script>
 
 <style scoped lang="less">
-	* {
-		font-size: 20px;
-	}
-	.panel {
+	
+	.fixed {
 		position: fixed;
-		bottom: 0;
 		right: 0;
-		z-index: 9999999999999;
-		background-color: #fff;
+		top: 0;
+		z-index: 9999;
+		height: 100vh;
+		
+	}
+	
+	.wrapper {
+		transition: all .5s linear;
+		position: absolute;
+		right: -320px;
+		top: 0;
+		width: 320px;
+		height: 100%;
+		
+		&.active {
+			transition: all .5s linear;
+			transform: translate(-320px, 0);
+		}
+	}
+	
+	.monkey {
+		position: absolute;
+		padding: 30px;
+		left: -40px;
+		background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey.png');
+		background-size: 60px 100%;
+		background-repeat: no-repeat;
+		transition: left 1s;
+		
+		&:hover {
+			background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey-wu.png');
+			
+		}
+	}
+	
+	.panel {
+		width: 100%;
+		height: 100%;
 	}
 </style>

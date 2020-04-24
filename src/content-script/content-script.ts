@@ -7,6 +7,7 @@ import { getStorage, setStorage } from '../utils/storage';
 import { Commands, MessageObj, MessageType } from '../utils/types';
 import { FASTER, SET_CONFIG, SET_LIST, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
 
+
 global.browser = require('webextension-polyfill');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,13 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
   el.id = 'app';
   document.body.insertBefore(el, document.body.firstChild);
   Vue.prototype.$sendMessage = sendMessage;
+  Vue.prototype.$url = (val) => {
+    return chrome.extension.getURL(val);
+  };
   Vue.filter('time', (time: number | string) => {
     return typeof time === 'number' ? time.toFixed(2) : time;
   });
   Vue.filter('speed', (speed: number) => {
     return speed.toFixed(1);
   });
-
 
 
   new Vue({
