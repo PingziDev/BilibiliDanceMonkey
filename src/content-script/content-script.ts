@@ -4,6 +4,9 @@ import App from './App.vue';
 import { isBilibili } from '../utils/bilibili';
 import { sendMessage } from './message';
 import store from './../store';
+import { getStorage, setStorage } from '../utils/storage';
+import { Commands } from '../utils/types';
+import { FASTER, SET_CONFIG, SET_SPEED, SLOWER } from '../store/mutation-types';
 
 global.browser = require('webextension-polyfill');
 
@@ -31,6 +34,44 @@ if (isBilibili()) {
         return h(App);
       },
       store,
+      mounted() {
+        // 默认设置
+        getStorage('config').then(res => {
+          if (res) {
+            return this.$store.commit(SET_CONFIG, res);
+          }
+          const config = {
+            bufferTime: 4,
+            captureW: 100,
+          };
+          setStorage('config', config);
+          return this.$store.commit(SET_CONFIG, config);
+        });
+
+
+        // 处理bg传来的命令
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+          console.log('request===', request);
+
+          if (typeof request === 'string') {
+            switch (request) {
+              case Commands.faster:
+                store.commit(FASTER);
+                break;
+              case Commands.slower:
+                store.commit(SLOWER);
+                break;
+              case Commands.speed5:
+                store.commit(SET_SPEED, 0.5);
+                break;
+              case Commands.speed1:
+                store.commit(SET_SPEED, 1);
+                break;
+              default:
+            }
+          }
+        });
+      },
     });
   });
 

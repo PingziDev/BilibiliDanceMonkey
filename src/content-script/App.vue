@@ -3,22 +3,25 @@
 		<div v-if="!config">获取配置中...</div>
 		<div v-else>
 			<button @click="show=!show" class="panel-toggle">扒舞</button>
-			<div v-if="video">
+			<div v-if="video&&items&&ratio">
 				<control-item
 						v-for="(v,i) in items"
 						:key="i"
 						:video="video"
 						:ratio="ratio"
 						:defaultValues="v"
+						@start="val=>v.start=val"
+						@end="val=>v.end=val"
 						@play="playItem(i,...arguments)"
 						@del="delItem(i)"
-						@add="addItem"
+						@add="addItem(i)"
 						@snap="val=>v.canvasStr=val"
 				></control-item>
 			</div>
 			<div v-show="show">
-				<button @click="sendMsg">test1</button>
 				<button @click="togglePlay()">{{playing?'播放中':'暂停中'}}</button>
+				<button @click="save">保存这只扒舞</button>
+				<button @click="clear">清空数据</button>
 				<div>
 					<h2>当前倍速: {{speed | speed}}</h2>
 					<button @click="$store.commit('SET_SPEED',i*0.1)" v-for="i in 9">0.{{i}}倍速</button>
@@ -32,14 +35,12 @@
 
 <script>
   
-  import { getVideoDom } from '../utils/bilibili';
+  import { getVid, getVideoDom } from '../utils/bilibili';
   import Keymap from './components/Keymap';
   import ControlItem from './components/ControlItem';
   import { mapState } from 'vuex';
-  import { round } from '../utils/utils';
-  import { Commands } from '../utils/types';
-  import { FASTER, SET_CONFIG, SET_SPEED, SLOWER } from '../store/mutation-types';
-  import { getStorage, setStorage } from '../utils/storage';
+  
+  import { clearItems, getItems, saveItems } from '../utils/storage';
   
   export default {
     name: 'App',
@@ -50,38 +51,50 @@
         playing: false,
         video: undefined,
         timer: undefined,
-        items: [{ playing: false }],
+        items: undefined,
         duration: false,
         // snapshot
-        ratio: 1,
+        ratio: false,
       };
     },
     computed: {
       ...mapState(['speed', 'config']),
-    
+      vid() {
+        return getVid();
+      },
+      defaultItems() {
+        return [
+          {
+            start: this.video.currentTime,
+            end: this.duration,
+            playing: false,
+            canvasStr: false,
+          }];
+      },
     },
     watch: {
       speed: function(now) {
-        console.log('now===', now);
         this.setSpeed(now);
       },
     },
     mounted() {
       this.video = getVideoDom();
-      this.setDefConfig();
-      this.handleCommands();
-      ////////////////
+  
+      // get ratio
       this.video.addEventListener('loadedmetadata', () => {
         this.ratio = this.video.videoWidth / this.video.videoHeight;
-        console.log('thisRatio===',this.ratio)
+        this.duration = this.video.duration;
+  
+        // get default data
+        this.items = (getItems(this.vid) || this.defaultItems).map(i => {
+          i.playing = false;
+          return i;
+        });
+        
       }, false);
     },
     methods: {
-      sendMsg() {
-        this.$sendMessage('sdfdsfkldsjfjdskl');
-      },
       togglePlay(playing) {
-        console.log('playing===', playing);
         this.playing = playing === undefined ? !this.playing : playing;
         this.playing ? this.video.play() : this.video.pause();
       },
@@ -91,13 +104,22 @@
       delItem(key) {
         this.items.splice(key, 1);
       },
-      addItem(start, end) {
+      addItem(index) {
         const duration = this.video.duration;
-        if (round(end) == round(duration)) {
+        const currentTime = this.video.currentTime;
+    
+        if (currentTime >= duration) {
           return;
         }
+        // set end for current item
+    
+        if (currentTime > this.items[index].start) {
+          console.log('currentTime===', currentTime);
+          this.items[index].end = currentTime;
+        }
+        // add a new item which start with  current time
         const { bufferTime } = this.config;
-        const newItem = { playing: false, start: Math.max(0, end - bufferTime), end: duration };
+        const newItem = { playing: false, start: Math.max(0, currentTime), end: duration, canvasStr: '' };
         this.items.push(newItem);
         this.playItem(this.items.length - 1, newItem.start, newItem.end);
       },
@@ -105,53 +127,25 @@
         this.items.forEach((v, i) => {
           v.playing = i === index;
         });
-        console.log('thisItems===', this.items);
         this.video.currentTime = start;
         this.togglePlay(true);
         if (this.timer) {
           clearInterval(this.timer);
         }
-        this.timer = setInterval(() => {
-          this.video.currentTime = start;
-        }, (end - start) * 1000);
+        if (end) {
+          this.timer = setInterval(() => {
+            this.video.currentTime = start;
+          }, (end - start) * 1000);
+        }
+  
       },
-      setDefConfig() {
-        // 默认设置
-        getStorage('config').then(res => {
-          if (res) {
-            return this.$store.commit(SET_CONFIG, res);
-          }
-          const config = {
-            bufferTime: 4,
-            captureW: 100,
-          };
-          setStorage('config', config);
-          return this.$store.commit(SET_CONFIG, config);
-        });
+      save() {
+        console.log('thisVid===', this.vid);
+        saveItems(this.vid, this.items);
       },
-      handleCommands() {
-        // 处理bg传来的命令
-        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-          console.log('request===', request);
-      
-          if (typeof request === 'string') {
-            switch (request) {
-              case Commands.faster:
-                this.store.commit(FASTER);
-                break;
-              case Commands.slower:
-                this.store.commit(SLOWER);
-                break;
-              case Commands.speed5:
-                this.store.commit(SET_SPEED, 0.5);
-                break;
-              case Commands.speed1:
-                this.store.commit(SET_SPEED, 1);
-                break;
-              default:
-            }
-          }
-        });
+      clear() {
+        this.items = this.defaultItems;
+        clearItems(this.vid);
       },
     },
   };

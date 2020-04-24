@@ -3,11 +3,11 @@
 		<canvas ref="canvas"></canvas>
 		
 		{{defaultValues.playing?'播放中':'暂停'}}
-		<button @click="setStart">{{start||'开始'|time}}</button>
-		<button @click="setEnd">{{end||'结束'|time}}</button>
+		<button @click="setStart">{{start|time}}</button>
+		<button @click="setEnd">{{end|time}}</button>
 		<button @click="play">播放</button>
-		<button @click="snap">截图</button>
-		<button @click="$emit('add',start,end)">添加</button>
+		<button @click="playFrom">从这开始</button>
+		<button @click="$emit('add')">添加</button>
 		<button @click="$emit('del')">删除</button>
 	</div>
 </template>
@@ -21,27 +21,23 @@
         type: HTMLVideoElement,
         required: true,
       },
-      ratio: { type: Number },
+      ratio: { type: [Number, Boolean] },
       defaultValues: {
         type: Object,
-        default() {
-          return {
-            playing: false,
-          };
-        },
+        required: true,
       },
     },
     data() {
       return {
-        start: (this.defaultValues || {}).start || 20,
-        end: (this.defaultValues || {}).end || 25,
+        start: this.defaultValues.start,
+        end: this.defaultValues.end,
         canvas: undefined,
         context: undefined,
       };
     },
     watch: {
-      ratio: function(now) {
-        this.canvas.height = parseInt(this.canvas.width / this.ratio, 10);
+      'defaultValues.end'(now) {
+        this.end = now;
       },
     },
     mounted() {
@@ -49,24 +45,38 @@
       this.context = this.canvas.getContext('2d');
       this.canvas.width = this.$store.state.config.captureW;
       this.canvas.height = parseInt(this.canvas.width / this.ratio, 10);
-      this.context.src = (this.defaultValues || {}).canvasStr;
+      if (this.defaultValues.canvasStr) {
+        let img = new Image();
+        img.onload = () => {
+          this.context.drawImage(img, 0, 0);
+        };
+        img.src = this.defaultValues.canvasStr;
+      } else {
+        this.snap();
+      }
     },
     methods: {
       setStart() {
         this.start = this.video.currentTime || 0;
+        this.$emit('start', this.start);
         this.snap();
       },
       setEnd() {
         this.end = this.video.currentTime || 0;
+        this.$emit('end', this.end);
         this.play()
       },
       play() {
         this.$emit('play', this.start, this.end);
       },
+      playFrom(){
+        this.$emit('play', this.start);
+      },
       snap() {
         let { context, video, canvas } = this;
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        console.log('canvasWidth===',canvas.width)
         this.$emit('snap', canvas.toDataURL());
       },
     },
