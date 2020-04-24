@@ -7,6 +7,7 @@
 				:video="video"
 				:ratio="ratio"
 				:defaultValues="v"
+				:duration="duration"
 				@start="val=>v.start=val"
 				@end="val=>v.end=val"
 				@play="playItem(i,...arguments)"
