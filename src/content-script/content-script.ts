@@ -1,22 +1,25 @@
 import './content-script.css';
 import Vue from 'vue';
 import App from './App.vue';
+import { isBilibili } from '../utils/bilibili';
 
 global.browser = require('webextension-polyfill');
 
-document.addEventListener('DOMContentLoaded', () => {
-  // https://stackoverflow.com/questions/59816151/in-chrome-extension-how-to-use-content-script-to-inject-a-vue-page
-  const el = document.createElement('div');
-  el.id = 'app';
-  document.body.insertBefore(el, document.body.firstChild);
-  new Vue({
-    el: el,
-    render: h => {
-      return h(App);
-    },
+if (isBilibili()) {
+  document.addEventListener('DOMContentLoaded', () => {
+    // https://stackoverflow.com/questions/59816151/in-chrome-extension-how-to-use-content-script-to-inject-a-vue-page
+    const el = document.createElement('div');
+    el.id = 'app';
+    document.body.insertBefore(el, document.body.firstChild);
+    new Vue({
+      el: el,
+      render: h => {
+        return h(App);
+      },
+    });
   });
-})
 
+}
 // if (isBilibili()) {
 //
 //   const vid = getVid();

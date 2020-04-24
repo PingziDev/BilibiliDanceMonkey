@@ -1,6 +1,12 @@
 <template>
-	<div>
-		<h1>Optionshahahahahha</h1>
+	<div class="panel">
+		<button @click="sendMsg">test1</button>
+		<button>test2</button>
+		<button>test3</button>
+		<button>test4</button>
+		<button>test5</button>
+		<button>test6</button>
+		<button>test7</button>
 	</div>
 </template>
 
@@ -9,13 +15,21 @@
   export default {
     name: 'App',
     mounted() {
-      console.log('45457457578===', 45457457578);
+  
+    },
+    methods: {
+      sendMsg() {
+        console.log('12313===', 12313);
+      },
     },
   };
 </script>
 
-<style scoped>
-	p {
-		font-size: 20px;
+<style scoped lang="less">
+	.panel {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		z-index: 9999999999999;
 	}
 </style>
