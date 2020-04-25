@@ -12,7 +12,7 @@
 				<div >
 					<el-button @click="$store.commit('SET_PLAYING',!playing)" type="primary" round>{{playing?'暂停':'播放'}}</el-button>
 				</div>
-				<div  v-for="i in ['0.3', '0.5', '0.7', '0.9', '1.0']">
+				<div v-for="i in speedList">
 					<el-button
 							@click="$store.commit('SET_SPEED', i)"
 							size="middle"
@@ -72,6 +72,7 @@
   import '../element/index.css';
   import './main.less';
   import List from './components/List';
+  import { speedList } from '../utils/types';
   
   Vue.use(ElementUI);
 
@@ -86,6 +87,9 @@
     computed: {
       ...mapState(['config', 'list', 'showType','playing']),
       ...mapGetters(['vid']),
+      speedList() {
+        return speedList;
+      },
     },
     mounted() {
     },

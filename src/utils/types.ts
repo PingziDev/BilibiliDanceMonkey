@@ -28,3 +28,6 @@ export type ControlItem = {
   canvasStr?: string
   playing: boolean
 }
+
+
+export const speedList = [0.3, 0.5, 0.7, 0.9, 1];

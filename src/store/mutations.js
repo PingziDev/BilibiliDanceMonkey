@@ -1,5 +1,6 @@
 import * as types from './mutation-types';
 import { setStorage } from '../utils/storage';
+import { speedList } from '../utils/types';
 
 export default {
   [types.UPDATE_FOO](state, payload) {
@@ -9,13 +10,22 @@ export default {
     state.speed = payload;
   },
   [types.FASTER](state) {
-    state.speed += 0.1;
+    const list = speedList;
+    let index = speedList.indexOf(state.speed);
+    index--;
+    if (index < 0) {
+      index = 0;
+    }
+    state.speed = list[index];
   },
   [types.SLOWER](state) {
-    state.speed -= 0.1;
-    if (state.speed <= 0) {
-      state.speed = 0.1;
+    const list = speedList;
+    let index = speedList.indexOf(state.speed);
+    index++;
+    if (index > list.length - 1) {
+      index = list.length - 1;
     }
+    state.speed = list[index];
   },
   [types.SET_CONFIG](state, payload) {
     state.config = payload;
@@ -37,7 +47,8 @@ export default {
   },
   [types.SET_SHOW_TYPE](state, type) {
     state.showType = type;
-  },  [types.SET_PLAYING](state, type) {
-    state.playing = type;
   },
+  [types.SET_PLAYING](state, type) {
+    state.playing = type;
+  }
 };
