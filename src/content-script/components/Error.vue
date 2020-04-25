@@ -33,6 +33,7 @@
 		padding: 30px;
 		margin-right: 15px;
 		margin-top: 40px;
+		
 	}
 	
 	.info {

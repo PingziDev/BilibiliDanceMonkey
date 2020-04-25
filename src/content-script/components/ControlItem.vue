@@ -1,6 +1,6 @@
 <template>
 <div style="position: relative">
-	<div class="topbtns">
+	<div class="topbtns" :class="{playing:active}">
 		<el-tooltip content="删除这个片段" effect="light">
 			<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
 		</el-tooltip>
@@ -158,10 +158,10 @@
 		margin-top:  15px;
 		background: #f5f5f5;
 		overflow: hidden;
-		border: thick double #f8eaf8;
+		border: 2px solid #f8c8cd;
 		
 		&.active {
-			border: thick double #f8c8cd;
+			border: 2px solid #f27991;
 			
 			&:before {
 				content: '';
@@ -176,12 +176,13 @@
 				z-index: 1000;
 				
 			}
+			
 		}
 	}
 	
 	.topbtns {
 		> span {
-			color: #f2bbd1;
+			color: #f27991;
 			position: absolute;
 			background-color: #fff;
 			width: 20px;
@@ -189,7 +190,7 @@
 			top: -10px;
 			z-index: 1002;
 			border-radius: 50%;
-			border: 2px solid #f8eaf8;
+			border: 2px solid #f8c8cd;
 			
 			.icon {
 				position: absolute;
@@ -201,6 +202,14 @@
 			&:hover {
 				color: #fff;
 				background-color: #f8a6ac;
+				
+			}
+			
+		}
+		
+		&.playing {
+			> span {
+				border: 2px solid #f27991;
 				
 			}
 		}
@@ -231,7 +240,7 @@
 		cursor: pointer;
 		font-size: 16px;
 		font-weight: bold;
-		text-shadow: #f88f97 1px 2px 3px;
+		text-shadow: #f24e78 1px 2px 3px;
 	}
 	
 	.canvas {
