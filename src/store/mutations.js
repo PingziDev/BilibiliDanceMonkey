@@ -38,7 +38,9 @@ export default {
     setStorage('list', state.items);
   },
   [types.ADD_VID](state, payload) {
-    state.list[payload.vid] = payload.title;
+    const temp = state.list || {};
+    temp[payload.vid] = payload.title;
+    state.list = temp;
     setStorage('list', state.list);
   },
   [types.REMOVE_VID](state, vid) {

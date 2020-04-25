@@ -197,7 +197,7 @@
       const currentTime = this.video.currentTime;
 
       if (currentTime >= duration) {
-        alert('超出视频时长,不能再添加片段了哟~');
+        this.$notify({ title: '超出视频时长,不能再添加片段了哟~!', type: 'error' });
         return;
       }
   
@@ -218,7 +218,8 @@
       const start = this.items[index].end;
   
       if (round(start) >= round(duration)) {
-        alert('超出视频时长,不能再添加片段了哟~');
+        this.$notify({ title: '超出视频时长,不能再添加片段了哟~!', type: 'error' });
+
         return;
       }
   
@@ -270,8 +271,12 @@
       this.playItem(index, start, end, true);
     },
     save() {
-      console.log("thisVid===", this.vid);
-      saveItems(this.vid, this.items);
+      try {
+        saveItems(this.vid, this.items);
+      } catch (e) {
+        console.log('e===', e);
+      }
+      this.$notify({ title: '保存成功!', type: 'success' });
     },
     clear() {
       this.items = false;
