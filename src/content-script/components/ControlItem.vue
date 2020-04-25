@@ -57,11 +57,12 @@
       </div>
       <div class="ontop" style="margin-bottom: -10px;">
         <el-slider
-          v-model="slides"
-          range
-          :step="1"
-          :max="duration"
-          @change="onSlide"
+		        v-model="slides"
+		        range
+		        :step="1"
+		        :max="duration"
+		        @change="onSlide"
+		        :format-tooltip="val=>val.toFixed(0)"
         >
         </el-slider>
       </div>
