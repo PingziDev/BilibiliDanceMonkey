@@ -1,8 +1,15 @@
 <template>
 	<div>
-		<button @click="goToVideo(k)" v-for="(i, k) in list">
-			{{ i }}
-		</button>
+		<div v-if="list&&Object.keys(list).length>0">
+			<el-card class="listitem" @click="goToVideo(k)" v-for="(i, k) in list">
+				<a>{{ i }}</a>
+			</el-card>
+		</div>
+		<div v-else>
+			<error>
+				暂时还没有扒舞记录哦~
+			</error>
+		</div>
 	</div>
 </template>
 
@@ -37,5 +44,8 @@
 </script>
 
 <style scoped lang="less">
-
+	.listitem {
+		margin-top: 20px;
+		cursor: pointer;
+	}
 </style>

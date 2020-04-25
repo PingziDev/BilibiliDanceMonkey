@@ -3,15 +3,19 @@
 		<div v-if="config" class="wrapper " :class="{ active: show }">
 			<!--money btn-->
 			<div class="leftbtns">
-				<div
-						class="monkey"
-						:class="{ active: show }"
-						@click="show = !show"
-				></div>
-			<template v-if="showType==='video'">
+				<el-tooltip content="Hi~I'm Dance Monkey🎵!" effect="light" placement="top">
+					
+					<div
+							class="monkey"
+							:class="{ active: show }"
+							@click="show = !show"
+					></div>
+				</el-tooltip>
+				<template v-if="video">
 				<div >
 					<el-button @click="$store.commit('SET_PLAYING',!playing)" type="primary" round>{{playing?'暂停':'播放'}}</el-button>
 				</div>
+					<!--speed btns-->
 				<div v-for="i in speedList">
 					<el-button
 							@click="$store.commit('SET_SPEED', i)"
@@ -19,23 +23,24 @@
 							:plain="$store.state.speed != i"
 							round
 							type="primary"
-					>x {{ i }}
+					>x {{ i|speed }}
 					</el-button
 					>
 				</div>
 			</template>
 				<div>
-					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','list')"
-					>记录
-					</el-button
-					>
-				</div>
-				<div>
-					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','video')"
+					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','video');show=true"
 					>扒舞
 					</el-button
 					>
 				</div>
+				<div>
+					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','list');show=true"
+					>历史
+					</el-button
+					>
+				</div>
+			
 			</div>
 			
 			<!--			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">-->
@@ -73,6 +78,7 @@
   import './main.less';
   import List from './components/List';
   import { speedList } from '../utils/types';
+  import { getVideoDom } from '../utils/bilibili';
   
   Vue.use(ElementUI);
 
@@ -82,6 +88,7 @@
     data() {
       return {
         show: true,
+        video: false,
       };
     },
     computed: {
@@ -90,8 +97,10 @@
       speedList() {
         return speedList;
       },
+  
     },
     mounted() {
+      this.video = getVideoDom();
     },
     methods: {},
   };

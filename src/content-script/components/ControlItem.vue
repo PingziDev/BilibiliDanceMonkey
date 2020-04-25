@@ -1,7 +1,21 @@
 <template>
 <div style="position: relative">
-	<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
-	<span class="addfromme " @click="$emit('add')"><span class="icon"><i class="el-icon-location"></i></span></span>
+	<div class="topbtns">
+		<el-tooltip content="删除这个片段" effect="light">
+			<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
+		</el-tooltip>
+		<el-tooltip content="从头播放这个片段" effect="light">
+			<span class="refresh " @click="$emit('playfromme',start,end)"><span class="icon"><i class="el-icon-refresh"></i></span></span>
+		</el-tooltip>
+		<el-tooltip content="从这个片段末尾新建" effect="light">
+			
+			<span class="addfromme " @click="$emit('add')"><span class="icon"><i class="el-icon-location"></i></span></span>
+		</el-tooltip>
+		<el-tooltip content="向上合并这个片段" effect="light">
+			
+			<span class="merge " @click="$emit('merge',start,end)"><span class="icon"><i class="el-icon-upload2"></i></span></span>
+		</el-tooltip>
+	</div>
 	<div class="item" :class="{active:active}">
 		<div class="w100 flex sb st ontop">
 			<div style="cursor: pointer" @click="togglePlay(!defaultValues.playing)">
@@ -11,9 +25,13 @@
 			
 			<div class="flex col sb btm">
 				<div class="times__btn">
-					<span  @click="setStart()">{{start|time}}</span>
+					<el-tooltip content="点击设置为当前时间" effect="light" placement="top">
+						<span @click="setStart()">{{start|time}}</span>
+					</el-tooltip>
 					-
-					<span  @click="setEnd()">{{end|time}}</span>
+					<el-tooltip content="点击设置为当前时间" effect="light" placement="top">
+						<span @click="setEnd()">{{end|time}}</span>
+					</el-tooltip>
 				</div>
 				<el-button-group>
 					<!--					<el-button type="primary" :plain="!defaultValues.playing"  size="mini" @click="play" icon="el-icon-caret-right"></el-button>-->
@@ -55,6 +73,7 @@
         required: true,
       },
       duration: { type: Number },
+  
     },
     data() {
       return {
@@ -97,8 +116,7 @@
         const now = start || this.video.currentTime || 0;
         if (this.start !== now) {
           this.start = now;
-          this.$emit('start', this.start);
-          this.togglePlay(true);
+          this.$emit('setItemTime', this.start, this.end);
           this.snap();
         }
   
@@ -107,8 +125,7 @@
         const now = end || this.video.currentTime || 0;
         if (this.end !== now) {
           this.end = now;
-          this.$emit('end', this.end);
-          this.togglePlay(true);
+          this.$emit('setItemTime', this.start, this.end);
         }
       
       },
@@ -131,6 +148,7 @@
     },
   };
 </script>
+
 
 <style scoped lang="less">
 	.item {
@@ -158,33 +176,49 @@
 		}
 	}
 	
-	.del,.addfromme {
-		color: #f2bbd1;
-		position: absolute;
-		background-color: #fff;
-		width: 20px;
-		height: 20px;
-		top: -10px;
-		right: -10px;
-		z-index: 1002;
-		border-radius: 50%;
-		border: thick double #f8c8cd;
-		
-		.icon{
+	.topbtns {
+		> span {
+			color: #f2bbd1;
 			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-		}
-		&:hover {
-			color: #fff;
-			background-color: #f8a6ac;
+			background-color: #fff;
+			width: 20px;
+			height: 20px;
+			top: -10px;
+			z-index: 1002;
+			border-radius: 50%;
+			border: thick double #f8c8cd;
 			
+			.icon {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			
+			&:hover {
+				color: #fff;
+				background-color: #f8a6ac;
+				
+			}
 		}
 	}
-	.addfromme{
+	
+	.del {
+		right: -10px;
+		
+	}
+	
+	.refresh {
 		right: 30px;
 	}
+	.addfromme{
+		right: 110px;
+	}
+	
+	.merge {
+		right: 70px;
+	}
+	
 	.ontop{
 		position: relative;
 		z-index: 1002;

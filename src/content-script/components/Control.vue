@@ -3,19 +3,20 @@
     <div v-if="video" class="flex col center">
       <div class="w100" v-if="items&&items.length>0">
         <control-item
-                :key="i"
-                v-for="(v, i) in items"
-                :active="i===active"
-                :video="video"
-                :ratio="ratio"
-                :defaultValues="v"
-                :duration="duration"
-                @start="val => (v.start = val)"
-                @end="val => (v.end = val)"
-                @togglePlay="togglePlayItem(i, ...arguments)"
-                @del="delItem(i)"
-                @add="addItem(i)"
-                @snap="val => (v.canvasStr = val)"
+		        :key="i"
+		        v-for="(v, i) in items"
+		        :active="i===active"
+		        :video="video"
+		        :ratio="ratio"
+		        :defaultValues="v"
+		        :duration="duration"
+		        @setItemTime="setItemTime(i,...arguments)"
+		        @togglePlay="togglePlayItem(i, ...arguments)"
+		        @playfromme="playItem(i,...arguments)"
+		        @del="delItem(i)"
+		        @add="addItem(i)"
+		        @merge="merge(i,i-1)"
+		        @snap="val => (v.canvasStr = val)"
         ></control-item>
       </div>
       <div v-else>
@@ -186,6 +187,7 @@
       const currentTime = this.video.currentTime;
 
       if (currentTime >= duration) {
+        alert('超出视频时长,不能再添加片段了哟~');
         return;
       }
   
@@ -206,6 +208,7 @@
       const start = this.items[index].end;
   
       if (round(start) >= round(duration)) {
+        alert('超出视频时长,不能再添加片段了哟~');
         return;
       }
   
@@ -249,6 +252,13 @@
         this.togglePlay();
       }
     },
+    setItemTime(index, start, end) {
+      this.items[index].start = start;
+      this.items[index].end = end;
+      this.active = index;
+      this.items[index].playing = true;
+      this.playItem(index, start, end, true);
+    },
     save() {
       console.log("thisVid===", this.vid);
       saveItems(this.vid, this.items);
@@ -256,6 +266,13 @@
     clear() {
       this.items = false;
       clearItems(this.vid);
+    },
+    merge(me, last) {
+      const meObj = this.items[me];
+      const laObj = this.items[last];
+      const newItem = { start: Math.min(meObj.start, laObj.start), end: Math.max(meObj.end, laObj.end) };
+      this.setItemTime(last, newItem.start, newItem.end);
+      this.items.splice(me, 1);
     }
   }
 };
