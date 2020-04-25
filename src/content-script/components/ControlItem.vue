@@ -107,6 +107,7 @@
           this.context.drawImage(img, 0, 0);
         };
         img.src = this.defaultValues.canvasStr;
+        console.log('img===', img);
       } else {
         this.snap();
       }

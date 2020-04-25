@@ -31,7 +31,7 @@ chrome.runtime.onInstalled.addListener(function() {
     function(tabId, changeInfo, tab) {
       // read changeInfo data and do something with it
       // like send the new url to contentscripts.js
-      if (changeInfo.url) {
+      if (changeInfo.url && changeInfo.url.includes('bilibili.com')) {
         sendMessageToContentScript({ type: MessageType.urlChange, value: changeInfo.url });
       }
     },

@@ -164,6 +164,9 @@
         this.video.onpause = () => {
           this.playing ? this.playing = false : null;
         };
+        this.video.ontimeupdate = (val) => {
+          // todo
+        };
       }
     },
     getVideoReadyData() {

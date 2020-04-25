@@ -1,21 +1,16 @@
 {
-  "name": "Dance Monkey Bilibili🎵",
-  "description": "A Vue.js web extension",
-  "version": "0.0.1",
+  "name": "B站扒舞猴子|DanceMonkeyBilibili🎵",
+  "description": "舞蹈爱好者的扒舞神器~",
+  "version": "0.0.3",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
     "144": "icons/icon_144.png"
   },
   "permissions": [
-    "contextMenus",
     "tabs",
-    "notifications",
-    "webRequest",
-    "webRequestBlocking",
     "storage",
-    "http://*/*",
-    "https://*/*"
+    "*://*.bilibili.com/*"
   ],
   "browser_action": {
     "default_title": "Dance Monkey Bilibili🎵"
