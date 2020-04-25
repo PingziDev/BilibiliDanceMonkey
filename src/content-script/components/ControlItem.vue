@@ -3,8 +3,11 @@
 	<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
 	<div class="item" :class="{active:defaultValues.playing}">
 		<div class="w100 flex sb st ontop">
-			<i class="play__btn el-icon-caret-right" :class="{playing:defaultValues.playing}"></i>
-			<canvas @click="togglePlay(!defaultValues.playing)" style="border-radius: 10px" class="canvas" ref="canvas"></canvas>
+			<div style="cursor: pointer" @click="togglePlay(!defaultValues.playing)">
+				<i class="play__btn el-icon-caret-right" :class="{playing:defaultValues.playing}"></i>
+				<canvas  style="border-radius: 10px" class="canvas" ref="canvas"></canvas>
+			</div>
+			
 			<div class="flex col sb btm">
 				<div class="times__btn">
 					<span  @click="setStart()">{{start|time}}</span>
@@ -61,8 +64,14 @@
       };
     },
     watch: {
+      'defaultValues.start'(now) {
+        this.start = now;
+        this.slides = [this.start, this.end];
+      },
       'defaultValues.end'(now) {
         this.end = now;
+        this.slides = [this.start, this.end];
+  
       },
     },
     mounted() {

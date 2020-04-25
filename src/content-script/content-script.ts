@@ -6,7 +6,7 @@ import store from './../store';
 import { getStorage, setStorage } from '../utils/storage';
 import { Commands, MessageObj, MessageType } from '../utils/types';
 import { FASTER, SET_CONFIG, SET_LIST, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
-
+import Error from './components/Error';
 
 global.browser = require('webextension-polyfill');
 
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return speed.toFixed(1);
   });
 
+Vue.component(Error.name,Error)
 
   new Vue({
     el: el,

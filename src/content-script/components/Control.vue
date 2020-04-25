@@ -1,50 +1,69 @@
 <template>
-	<div>
-		<div v-if="video" class="flex col center">
-			<div class="w100" v-for="(v, i) in items">
+  <div>
+    <div v-if="video" class="flex col center">
+      <div class="w100" v-if="items&&items.length>0">
         <control-item
-          :key="i"
-          :video="video"
-          :ratio="ratio"
-          :defaultValues="v"
-          :duration="duration"
-          @start="val => (v.start = val)"
-          @end="val => (v.end = val)"
-          @togglePlay="togglePlayItem(i, ...arguments)"
-          @del="delItem(i)"
-          @add="addItem(i)"
-          @snap="val => (v.canvasStr = val)"
+                :key="i"
+                v-for="(v, i) in items"
+                :video="video"
+                :ratio="ratio"
+                :defaultValues="v"
+                :duration="duration"
+                @start="val => (v.start = val)"
+                @end="val => (v.end = val)"
+                @togglePlay="togglePlayItem(i, ...arguments)"
+                @del="delItem(i)"
+                @add="addItem(i)"
+                @snap="val => (v.canvasStr = val)"
         ></control-item>
       </div>
-			
-			<el-button-group class="btmbtns">
-				<el-button
-						plain
-						icon="el-icon-document"
-						round
-						type="primary"
-						@click="save"
-				></el-button>
-				<el-button
-						plain
-						round
-						type="primary"
-						@click="add"
-						icon="el-icon-plus"
-				></el-button>
-				<el-button
-						plain
-						round
-						type="primary"
-						@click="clear"
-						icon="el-icon-delete"
-				></el-button>
-			</el-button-group>
+      <div v-else>
+        <error>
+          什么都没有哦,点击按钮
+          <el-button
+                  plain
+                  round
+                  type="primary"
+                  @click="add"
+                  size="mini"
+                  icon="el-icon-plus"
+          ></el-button>
+           新建一个吧~
+        </error>
+      
+      </div>
+      
+      <el-button-group class="btmbtns">
+        <el-button
+                plain
+                icon="el-icon-document"
+                round
+                type="primary"
+                @click="save"
+        ></el-button>
+        <el-button
+                plain
+                round
+                type="primary"
+                @click="add"
+                icon="el-icon-plus"
+        ></el-button>
+        <el-button
+                plain
+                round
+                type="primary"
+                @click="clear"
+                icon="el-icon-delete"
+        ></el-button>
+      </el-button-group>
     </div>
-		<div v-else>
-			这个页面暂不支持扒舞猴子哦~
-		</div>
-	</div>
+    <div v-else>
+      <error>
+        这个页面暂不支持扒舞猴子哦~
+      
+      </error>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -62,7 +81,7 @@
       playing: false,
       video: undefined,
       timer: undefined,
-      items: undefined,
+      items: false,
       duration: false,
       showList: false,
       loading: false,
@@ -103,13 +122,14 @@
       // video not loaded
       if (this.video.readyState < 4) {
         this.video.addEventListener(
-          'loadedmetadata',
+                'loadedmetadata',
           () => {
             this.getVideoReadyData();
           },
-          false,
+                false,
         );
-      } else { // video already loaded
+      } else {
+        // video already loaded
         this.getVideoReadyData();
       }
     },
@@ -117,12 +137,17 @@
       // get ratio
       this.ratio = this.video.videoWidth / this.video.videoHeight;
       this.duration = this.video.duration;
-    
+
       // get default data
-      this.items = (getItems(this.vid) || [...this.defaultItems]).map(i => {
-        i.playing = false;
-        return i;
-      });
+      const temp = getItems(this.vid);
+      if (temp) {
+        temp.map(i => {
+          i.playing = false;
+          return i;
+        });
+      }
+      this.items = temp;
+      console.log('thisItems===', this.items);
     },
     togglePlay(playing) {
       this.playing = playing === undefined ? !this.playing : playing;
@@ -137,11 +162,11 @@
     add() {
       const duration = this.video.duration;
       const currentTime = this.video.currentTime;
-    
+
       if (currentTime >= duration) {
         return;
       }
-    
+  
       // add a new item which start with  current time
       const newItem = {
         playing: false,
@@ -149,7 +174,9 @@
         end: duration,
         canvasStr: '',
       };
-      this.items.push(newItem);
+      const temp = this.items || [];
+      temp.push(newItem);
+      this.items = temp;
       this.togglePlayItem(this.items.length - 1, newItem.start, newItem.end);
     },
     addItem(index) {
@@ -201,11 +228,13 @@
       saveItems(this.vid, this.items);
     },
     clear() {
-      this.items = this.defaultItems;
+      this.items = false;
       clearItems(this.vid);
     }
   }
 };
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+
+</style>
