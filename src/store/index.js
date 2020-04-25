@@ -14,6 +14,7 @@ export default new Vuex.Store({
     config: false,
     url: location.href,
     list: false,
+    showType:'video' // list , video
   },
   getters,
   mutations,

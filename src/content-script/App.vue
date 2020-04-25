@@ -8,14 +8,34 @@
 						:class="{ active: show }"
 						@click="show = !show"
 				></div>
-				<div>
+			<template v-if="showType==='video'">
+				<div >
 					<el-button type="primary" round>播放</el-button>
 				</div>
-				<div v-for="i in ['0.3','0.5','0.7','0.9','1.0']">
-					<el-button @click="$store.commit('SET_SPEED', i)" size="middle" :plain="$store.state.speed!=i" round type="primary">x {{i}}</el-button>
+				<div  v-for="i in ['0.3', '0.5', '0.7', '0.9', '1.0']">
+					<el-button
+							@click="$store.commit('SET_SPEED', i)"
+							size="middle"
+							:plain="$store.state.speed != i"
+							round
+							type="primary"
+					>x {{ i }}
+					</el-button
+					>
 				</div>
-			
-			
+			</template>
+				<div>
+					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','list')"
+					>记录
+					</el-button
+					>
+				</div>
+				<div>
+					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','video')"
+					>扒舞
+					</el-button
+					>
+				</div>
 			</div>
 			
 			<!--			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">-->
@@ -28,12 +48,13 @@
           overflowY: 'scroll'
         }"
 			>
-				<div v-if="video">
-					<control></control>
+				<div v-if="showType==='list'">
+					<list></list>
 				</div>
 				<div v-else>
-					这个页面暂不支持扒舞猴子哦~
+					<control></control>
 				</div>
+		
 			</el-card>
 		</div>
 		<div v-else>
@@ -43,7 +64,6 @@
 </template>
 
 <script>
-  import { getVideoDom } from '../utils/bilibili';
   import Control from './components/Control';
   import { mapGetters, mapState } from 'vuex';
   import ElementUI from 'element-ui';
@@ -51,24 +71,23 @@
   // import 'element-ui/lib/theme-chalk/index.css';
   import '../element/index.css';
   import './main.less';
+  import List from './components/List';
   
   Vue.use(ElementUI);
 
   export default {
     name: 'App',
-    components: { Control },
+    components: { Control ,List},
     data() {
       return {
         show: true,
-        video: undefined,
       };
     },
     computed: {
-      ...mapState(['config', 'list']),
+      ...mapState(['config', 'list', 'showType']),
       ...mapGetters(['vid']),
     },
     mounted() {
-      this.video = getVideoDom();
     },
     methods: {},
   };
@@ -123,7 +142,6 @@
 		position: relative;
 		width: 320px;
 		height: 100vh;
-		
 	}
 	
 	.el-button {

@@ -35,4 +35,7 @@ export default {
     delete state.list[vid];
     setStorage('list', state.list);
   },
+  [types.SET_SHOW_TYPE](state, type) {
+    state.showType = type;
+  },
 };

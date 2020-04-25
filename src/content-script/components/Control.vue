@@ -1,11 +1,7 @@
 <template>
-	<div  class="flex col center">
-      <div v-if="showList">
-        <button @click="goToVideo(k)" v-for="(i, k) in list">
-          {{ i }}
-        </button>
-      </div>
-      <div class="w100" v-else v-for="(v, i) in items">
+	<div>
+		<div v-if="video" class="flex col center">
+			<div class="w100" v-for="(v, i) in items">
         <control-item
           :key="i"
           :video="video"
@@ -20,29 +16,44 @@
           @snap="val => (v.canvasStr = val)"
         ></control-item>
       </div>
-
-		
-		<el-button-group class="btmbtns">
-			<el-button plain round @click="showList=true" type="primary" icon="el-icon-more" ></el-button>
-			<el-button plain round @click="showList=false" type="primary" icon="el-icon-menu" ></el-button>
-			<template v-if="!showList">
-				<el-button plain icon="el-icon-document"  round type="primary" @click="save"></el-button>
-				<el-button plain round type="primary"  @click="clear" icon="el-icon-delete"></el-button>
-			</template>
-		</el-button-group>
+			
+			<el-button-group class="btmbtns">
+				<el-button
+						plain
+						icon="el-icon-document"
+						round
+						type="primary"
+						@click="save"
+				></el-button>
+				<el-button
+						plain
+						round
+						type="primary"
+						@click="add"
+						icon="el-icon-plus"
+				></el-button>
+				<el-button
+						plain
+						round
+						type="primary"
+						@click="clear"
+						icon="el-icon-delete"
+				></el-button>
+			</el-button-group>
     </div>
+		<div v-else>
+			这个页面暂不支持扒舞猴子哦~
+		</div>
+	</div>
 </template>
 
 <script>
-  
   import { getVideoDom } from '../../utils/bilibili';
   import Keymap from './../components/Keymap';
   import ControlItem from './../components/ControlItem';
   import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
-  import { sendMessage } from '../message';
-  import { MessageType } from '../../utils/types';
   
   export default {
   components: { Keymap, ControlItem },
@@ -89,21 +100,29 @@
   methods: {
     getData() {
       this.video = getVideoDom();
+      // video not loaded
+      if (this.video.readyState < 4) {
+        this.video.addEventListener(
+          'loadedmetadata',
+          () => {
+            this.getVideoReadyData();
+          },
+          false,
+        );
+      } else { // video already loaded
+        this.getVideoReadyData();
+      }
+    },
+    getVideoReadyData() {
       // get ratio
-      this.video.addEventListener(
-        "loadedmetadata",
-        () => {
-          this.ratio = this.video.videoWidth / this.video.videoHeight;
-          this.duration = this.video.duration;
-
-          // get default data
-          this.items = (getItems(this.vid) || this.defaultItems).map(i => {
-            i.playing = false;
-            return i;
-          });
-        },
-        false
-      );
+      this.ratio = this.video.videoWidth / this.video.videoHeight;
+      this.duration = this.video.duration;
+    
+      // get default data
+      this.items = (getItems(this.vid) || [...this.defaultItems]).map(i => {
+        i.playing = false;
+        return i;
+      });
     },
     togglePlay(playing) {
       this.playing = playing === undefined ? !this.playing : playing;
@@ -114,6 +133,24 @@
     },
     delItem(key) {
       this.items.splice(key, 1);
+    },
+    add() {
+      const duration = this.video.duration;
+      const currentTime = this.video.currentTime;
+    
+      if (currentTime >= duration) {
+        return;
+      }
+    
+      // add a new item which start with  current time
+      const newItem = {
+        playing: false,
+        start: Math.max(0, currentTime),
+        end: duration,
+        canvasStr: '',
+      };
+      this.items.push(newItem);
+      this.togglePlayItem(this.items.length - 1, newItem.start, newItem.end);
     },
     addItem(index) {
       const duration = this.video.duration;
@@ -166,17 +203,9 @@
     clear() {
       this.items = this.defaultItems;
       clearItems(this.vid);
-    },
-    goToVideo(vid) {
-      sendMessage({
-        type: MessageType.openTab,
-        value: "https://www.bilibili.com/video/" + vid
-      });
     }
   }
 };
 </script>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>
