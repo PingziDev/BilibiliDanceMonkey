@@ -1,15 +1,10 @@
 <template>
-	<div class="fixed">
-		<div v-if="config" class="wrapper flex center" :class="{active:show}">
+	<div class="fixed" >
+		<div v-if="config" class="wrapper flex center" :class="{active:show}" >
 			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">
 				<div class="monkey" :class="{active:show}" @click="show=!show"></div>
 			</el-tooltip>
-			<el-card  class="box-card panel" >
-				<div>
-					<button @click="goToVideo(k)" v-for="(i,k) in list">
-						{{i}}
-					</button>
-				</div>
+			<el-card class="box-card panel" :body-style="{paddingLeft:'15px',paddingRight:'15px',background:'#f5f5f5',height:'100%'}" >
 				<div v-if="video">
 					<control></control>
 				</div>
@@ -28,9 +23,7 @@
   
   import { getVideoDom } from '../utils/bilibili';
   import Control from './components/Control';
-  import { mapState } from 'vuex';
-  import { sendMessage } from './message';
-  import { MessageType } from '../utils/types';
+  import { mapGetters, mapState } from 'vuex';
   import ElementUI from 'element-ui';
   import Vue from 'vue';
   // import 'element-ui/lib/theme-chalk/index.css';
@@ -50,22 +43,13 @@
     },
     computed: {
       ...mapState(['config', 'list']),
-  
-    },
-    watch: {
-  
-      vid:function(now,old) {
-        console.log('nowOld===',now,old)
-        this.$forceUpdate()
-      }
+  ...mapGetters(['vid'])
     },
     mounted() {
       this.video = getVideoDom();
     },
     methods: {
-      goToVideo(vid) {
-        sendMessage({ type: MessageType.openTab, value: 'https://www.bilibili.com/video/' + vid });
-      },
+
     },
   };
 </script>
@@ -102,6 +86,7 @@
 		background-size: 60px 100%;
 		background-repeat: no-repeat;
 		transition: left 1s;
+		z-index: 1002;
 		
 		&:hover {
 			background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey-wu.png');
@@ -113,5 +98,14 @@
 		width: 100%;
 		height: 100vh;
 		overflow-y: scroll;
+
 	}
+	
+
+</style>
+
+<style>
+	/*[class*=" el-icon-"], [class^="el-icon-"] {*/
+	/*	font-size: 30px;*/
+	/*}*/
 </style>

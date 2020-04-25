@@ -1,15 +1,23 @@
 <template>
-	<div class="item">
-		<canvas ref="canvas"></canvas>
-		
-		{{defaultValues.playing?'播放中':'暂停'}} {{duration}}
-		<button @click="setStart">{{start|time}}</button>
-		<button @click="setEnd">{{end|time}}</button>
-		<button @click="play">播放</button>
-		<button @click="playFrom">从这开始</button>
-		<button @click="$emit('add')">添加</button>
-		<button @click="$emit('del')">删除</button>
-		<div>
+<div style="position: relative">
+	<span class="del times__btn" @click="$emit('del')"><span class="icon">x</span></span>
+	<div class="item" @click="play" :class="{active:defaultValues.playing}">
+		<div class="w100 flex sb st ontop">
+			<canvas style="border-radius: 10px" class="canvas" ref="canvas"></canvas>
+			<div class="flex col sb btm">
+				<div class="times__btn">
+					<span  @click="setStart()">{{start|time}}</span>
+					-
+					<span  @click="setEnd()">{{end|time}}</span>
+				</div>
+				<el-button-group>
+					<!--					<el-button type="primary" :plain="!defaultValues.playing"  size="mini" @click="play" icon="el-icon-caret-right"></el-button>-->
+					<!--					<el-button type="primary" plain  size="mini" @click="$emit('add')" icon="el-icon-plus"></el-button>-->
+					<!--			<button @click="playFrom">从这开始</button>-->
+				</el-button-group>
+			</div>
+		</div>
+		<div class="ontop" style="margin-bottom: -10px;">
 			<el-slider
 					v-model="slides"
 					range
@@ -19,7 +27,11 @@
 			>
 			</el-slider>
 		</div>
+	
+	
 	</div>
+
+</div>
 </template>
 
 <script>
@@ -110,8 +122,60 @@
 
 <style scoped lang="less">
 	.item {
-		padding: 30px;
-		border: 1px solid #aaa;
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding: 15px;
+		border-radius: 10px;
+		margin-bottom: 15px;
+		background: #fff;
+		overflow: hidden;
+	 &.active {
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				filter: blur(20px);
+				background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey.png');
+				background-size: cover;
+				z-index: 1000;
+			}
+		}
+	}
+	
+	.del {
+		color: #f2bbd1;
+		position: absolute;
 		background-color: #fff;
+		width: 30px;
+		height: 30px;
+		top: -15px;
+		right: -15px;
+		z-index: 1002;
+		border-radius: 50%;
+		.icon{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -55%);
+		}
+		&:hover {
+			color: #fff;
+			background-color: #f8a6ac;
+			
+		}
+	}
+	.ontop{
+		position: relative;
+		z-index: 1002;
+	}
+	.times__btn{
+		color: #fff;
+		cursor: pointer;
+		font-size: 16px;
+		font-weight: bold;
+		text-shadow: #f88f97 1px 2px 3px;
 	}
 </style>

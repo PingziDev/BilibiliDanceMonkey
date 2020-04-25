@@ -1,7 +1,12 @@
 <template>
-	<div >
-		{{vid}}
-		<div v-for="(v,i) in items">
+	<div  class="flex col center">
+		<div v-if="showList">
+			<button @click="goToVideo(k)" v-for="(i,k) in list">
+				{{i}}
+			</button>
+		</div>
+		<div class="w100"
+		     v-else v-for="(v,i) in items">
 			<control-item
 					:key="i"
 					:video="video"
@@ -15,18 +20,17 @@
 					@add="addItem(i)"
 					@snap="val=>v.canvasStr=val"
 			></control-item>
-			<div>
-				<i class="el-icon-edit"></i>
-				
-				向下合并 +
-			
-			</div>
-		
 		</div>
+
 		
-		<button @click="togglePlay()">{{playing?'播放中':'暂停中'}}</button>
-		<button @click="save">保存这只扒舞</button>
-		<button @click="clear">清空数据</button>
+		<el-button-group style="position: absolute;bottom: 30px;">
+			<el-button plain round @click="showList=true" type="primary" icon="el-icon-more" ></el-button>
+			<el-button plain round @click="showList=false" type="primary" icon="el-icon-menu" ></el-button>
+			<template v-if="!showList">
+				<el-button plain icon="el-icon-document"  round type="primary" @click="save"></el-button>
+				<el-button plain round type="primary"  @click="clear" icon="el-icon-delete"></el-button>
+			</template>
+		</el-button-group>
 		<div>
 			<h2>当前倍速: {{speed | speed}}</h2>
 			<button @click="$store.commit('SET_SPEED',i*0.1)" v-for="i in 9">0.{{i}}倍速</button>
@@ -44,6 +48,7 @@
   import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
+  import { sendMessage } from '../message';
   
   export default {
     components: { Keymap, ControlItem },
@@ -54,12 +59,14 @@
         timer: undefined,
         items: undefined,
         duration: false,
+        showList: false,
+        loading: false,
         // snapshot
         ratio: false,
       };
     },
     computed: {
-      ...mapState(['speed', 'config']),
+      ...mapState(['speed', 'config', 'list']),
       ...mapGetters(['vid']),
       defaultItems() {
         return [
@@ -77,26 +84,29 @@
       },
       vid:function(now,old) {
         if (now != old) {
-        this.$forceUpdate()
+          this.getData();
         }
       }
     },
     mounted() {
-      this.video = getVideoDom();
-      // get ratio
-      this.video.addEventListener('loadedmetadata', () => {
-        this.ratio = this.video.videoWidth / this.video.videoHeight;
-        this.duration = this.video.duration;
-        
-        // get default data
-        this.items = (getItems(this.vid) || this.defaultItems).map(i => {
-          i.playing = false;
-          return i;
-        });
-        
-      }, false);
+      this.getData();
     },
     methods: {
+      getData() {
+        this.video = getVideoDom();
+        // get ratio
+        this.video.addEventListener('loadedmetadata', () => {
+          this.ratio = this.video.videoWidth / this.video.videoHeight;
+          this.duration = this.video.duration;
+      
+          // get default data
+          this.items = (getItems(this.vid) || this.defaultItems).map(i => {
+            i.playing = false;
+            return i;
+          });
+      
+        }, false);
+      },
       togglePlay(playing) {
         this.playing = playing === undefined ? !this.playing : playing;
         this.playing ? this.video.play() : this.video.pause();
@@ -149,6 +159,9 @@
       clear() {
         this.items = this.defaultItems;
         clearItems(this.vid);
+      },
+      goToVideo(vid) {
+        sendMessage({ type: MessageType.openTab, value: 'https://www.bilibili.com/video/' + vid });
       },
     },
   };
