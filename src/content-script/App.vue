@@ -4,7 +4,7 @@
 			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">
 				<div class="monkey" :class="{active:show}" @click="show=!show"></div>
 			</el-tooltip>
-			<el-card class="box-card panel" >
+			<el-card  class="box-card panel" >
 				<div>
 					<button @click="goToVideo(k)" v-for="(i,k) in list">
 						{{i}}
@@ -44,7 +44,7 @@
     components: { Control },
     data() {
       return {
-        show: false,
+        show: true,
         video: undefined,
       };
     },

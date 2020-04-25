@@ -1,20 +1,29 @@
 <template>
 	<div >
 		{{vid}}
-		<control-item
-				v-for="(v,i) in items"
-				:key="i"
-				:video="video"
-				:ratio="ratio"
-				:defaultValues="v"
-				:duration="duration"
-				@start="val=>v.start=val"
-				@end="val=>v.end=val"
-				@play="playItem(i,...arguments)"
-				@del="delItem(i)"
-				@add="addItem(i)"
-				@snap="val=>v.canvasStr=val"
-		></control-item>
+		<div v-for="(v,i) in items">
+			<control-item
+					:key="i"
+					:video="video"
+					:ratio="ratio"
+					:defaultValues="v"
+					:duration="duration"
+					@start="val=>v.start=val"
+					@end="val=>v.end=val"
+					@play="playItem(i,...arguments)"
+					@del="delItem(i)"
+					@add="addItem(i)"
+					@snap="val=>v.canvasStr=val"
+			></control-item>
+			<div>
+				<i class="el-icon-edit"></i>
+				
+				向下合并 +
+			
+			</div>
+		
+		</div>
+		
 		<button @click="togglePlay()">{{playing?'播放中':'暂停中'}}</button>
 		<button @click="save">保存这只扒舞</button>
 		<button @click="clear">清空数据</button>
@@ -67,8 +76,9 @@
         this.setSpeed(now);
       },
       vid:function(now,old) {
-        console.log('nowOld===',now,old)
+        if (now != old) {
         this.$forceUpdate()
+        }
       }
     },
     mounted() {
