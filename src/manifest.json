@@ -7,14 +7,9 @@
     "48": "icons/icon_48.png",
     "144": "icons/icon_144.png"
   },
-  "permissions": [
-    "tabs",
-    "storage",
-    "*://*.bilibili.com/*"
-  ],
+  "permissions": ["tabs", "storage", "*://*.bilibili.com/*"],
   "browser_action": {
     "default_title": "Dance Monkey Bilibili🎵"
-
   },
   "background": {
     "scripts": ["background.js"]
@@ -33,12 +28,8 @@
         "*://www.bilibili.com/*",
         "*://*.bilibili.com/*"
       ],
-      "js": [
-        "content-script/content-script.js"
-      ],
-      "css": [
-        "content-script/content-script.css"
-      ],
+      "js": ["content-script/content-script.js"],
+      "css": ["content-script/content-script.css"],
       "run_at": "document_start"
     }
   ],
@@ -68,9 +59,6 @@
       "description": "下一个片段"
     }
   },
-  "web_accessible_resources": [
-    "assets/*",
-    "fonts/*"
-  ],
+  "web_accessible_resources": ["assets/*", "fonts/*"],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }

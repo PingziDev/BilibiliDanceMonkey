@@ -5,18 +5,18 @@
  chrome.storage是针对插件全局的，即使你在background中保存的数据，在content-script也能获取到；
  chrome.storage.sync可以跟随当前登录用户自动同步，这台电脑修改的设置会自动同步到其它电脑，很方便，如果没有登录或者未联网则先保存到本地，等登录了再同步至网络；
  */
-import { ControlItem } from './types';
-import store from '../store';
-import { ADD_VID, REMOVE_VID } from '../store/mutation-types';
+import { ControlItem } from "./types";
+import store from "../store";
+import { ADD_VID, REMOVE_VID } from "../store/mutation-types";
 
-export type ValueType = string | number | object | boolean
+export type ValueType = string | number | object | boolean;
 export async function setStorage(key: string, value: ValueType): Promise<void> {
   if (!chrome.storage) {
-    throw new Error('不支持chrome.storage');
+    throw new Error("不支持chrome.storage");
   }
   return new Promise(resolve => {
     chrome.storage.sync.set({ [key]: value }, () => {
-      console.log('key===', key, value);
+      console.log("key===", key, value);
       resolve();
     });
   });
@@ -24,21 +24,23 @@ export async function setStorage(key: string, value: ValueType): Promise<void> {
 
 export async function getStorage(key): Promise<ValueType> {
   return new Promise(resolve => {
-    chrome.storage.sync.get(key, (items) => {
+    chrome.storage.sync.get(key, items => {
       let res = items[key];
-      console.log('key===', key, res);
+      console.log("key===", key, res);
       return resolve(res);
     });
   });
 }
-
 
 export function clearStorage(key: string) {
   chrome.storage.sync.remove(key);
 }
 
 export function saveItems(vid: string, items: ControlItem[]) {
-  store.commit(ADD_VID, { vid, title: document.title.replace('_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili', '') });
+  store.commit(ADD_VID, {
+    vid,
+    title: document.title.replace("_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili", "")
+  });
   window.localStorage.setItem(vid, JSON.stringify(items));
 }
 
@@ -48,6 +50,5 @@ export function clearItems(vid) {
 }
 
 export function getItems(vid) {
-  return JSON.parse(window.localStorage.getItem(vid) );
+  return JSON.parse(window.localStorage.getItem(vid));
 }
-

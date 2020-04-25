@@ -1,6 +1,6 @@
-import * as types from './mutation-types';
-import { setStorage } from '../utils/storage';
-import { speedList } from '../utils/types';
+import * as types from "./mutation-types";
+import { setStorage } from "../utils/storage";
+import { speedList } from "../utils/types";
 
 export default {
   [types.UPDATE_FOO](state, payload) {
@@ -44,17 +44,17 @@ export default {
   },
   [types.SET_LIST](state, payload) {
     state.list = payload;
-    setStorage('list', state.items);
+    setStorage("list", state.items);
   },
   [types.ADD_VID](state, payload) {
     const temp = state.list || {};
     temp[payload.vid] = payload.title;
     state.list = temp;
-    setStorage('list', state.list);
+    setStorage("list", state.list);
   },
   [types.REMOVE_VID](state, vid) {
     delete state.list[vid];
-    setStorage('list', state.list);
+    setStorage("list", state.list);
   },
   [types.SET_SHOW_TYPE](state, type) {
     state.showType = type;
