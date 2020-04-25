@@ -1,7 +1,7 @@
 {
-  "name": "dance-monkey",
+  "name": "dance-monkey-bilibili",
   "version": "1.0.0",
-  "description": "A Vue.js web extension",
+  "description": "B站扒舞猴子🎵",
   "author": "vita2333 <lp_vitadolce@163.com>",
   "engines": {
     "node": ">=10"

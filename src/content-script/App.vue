@@ -72,7 +72,7 @@
 							Hi~ 这里是
 						
 						</p>
-						<p><b><a href="https://space.bilibili.com/14759305">Booooooooootle瓶子</a></b></p>
+						<p><b><a href="https://space.bilibili.com/14759305">vita2333_瓶子</a></b></p>
 						<p style="margin-top: 30px;"> 如果你对这个插件有任何问题, 欢迎给我提
 							<a href="https://github.com/vita2333/Chrome-extension-dance-monkey">issue</a>, 或者在B站私信我~</p>
 						<p style="margin-top: 30px;">感谢支持~ :)</p>

@@ -73,6 +73,9 @@
       "description": "原速"
     }
   },
-  "web_accessible_resources": ["assets/*","fonts/*"]
-
+  "web_accessible_resources": [
+    "assets/*",
+    "fonts/*"
+  ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
