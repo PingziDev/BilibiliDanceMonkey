@@ -5,6 +5,7 @@
         <control-item
                 :key="i"
                 v-for="(v, i) in items"
+                :active="i===active"
                 :video="video"
                 :ratio="ratio"
                 :defaultValues="v"
@@ -74,6 +75,7 @@
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
   import { SET_PLAYING } from '../../store/mutation-types';
+  import { round } from '../../utils/utils';
   
   export default {
   components: { Keymap, ControlItem },
@@ -85,6 +87,7 @@
       duration: false,
       showList: false,
       loading: false,
+      active: false,
       // snapshot
       ratio: false
     };
@@ -145,6 +148,12 @@
         // video already loaded
         this.getVideoReadyData();
       }
+      this.video.onplay = () => {
+        !this.playing ? this.playing = true : null;
+      };
+      this.video.onpause = () => {
+        this.playing ? this.playing = false : null;
+      };
     },
     getVideoReadyData() {
       // get ratio
@@ -190,33 +199,28 @@
       const temp = this.items || [];
       temp.push(newItem);
       this.items = temp;
-      this.togglePlayItem(this.items.length - 1, newItem.start, newItem.end);
+      this.playItem(this.items.length - 1, newItem.start, newItem.end);
     },
     addItem(index) {
       const duration = this.video.duration;
-      const currentTime = this.video.currentTime;
-
-      if (currentTime >= duration) {
+      const start = this.items[index].end;
+  
+      if (round(start) >= round(duration)) {
         return;
       }
-      // set end for current item
-
-      if (currentTime > this.items[index].start) {
-        console.log("currentTime===", currentTime);
-        this.items[index].end = currentTime;
-      }
-      // add a new item which start with  current time
-      const { bufferTime } = this.config;
+  
+      // add a new item which start with  start time
       const newItem = {
         playing: false,
-        start: Math.max(0, currentTime),
+        start: start,
         end: duration,
         canvasStr: ""
       };
       this.items.push(newItem);
-      this.togglePlayItem(this.items.length - 1, newItem.start, newItem.end);
+      this.playItem(this.items.length - 1, newItem.start, newItem.end);
     },
-    togglePlayItem(index, start, end, playing = true) {
+    playItem(index, start, end, playing = true) {
+      this.active = index;
       if (playing) {
         this.items.forEach((v, i) => {
           v.playing = i === index;
@@ -234,6 +238,15 @@
       } else {
         this.items[index].playing = false;
         this.togglePlay(false);
+      }
+    },
+    togglePlayItem(index, start, end, playing) {
+      if (index !== this.active) {
+        this.playItem(index, start, end);
+      } else {
+        console.log('playing===',playing)
+        this.items[index].playing = playing;
+        this.togglePlay();
       }
     },
     save() {

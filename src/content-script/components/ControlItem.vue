@@ -1,7 +1,8 @@
 <template>
 <div style="position: relative">
 	<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
-	<div class="item" :class="{active:defaultValues.playing}">
+	<span class="addfromme " @click="$emit('add')"><span class="icon"><i class="el-icon-location"></i></span></span>
+	<div class="item" :class="{active:active}">
 		<div class="w100 flex sb st ontop">
 			<div style="cursor: pointer" @click="togglePlay(!defaultValues.playing)">
 				<i class="play__btn el-icon-caret-right" :class="{playing:defaultValues.playing}"></i>
@@ -16,16 +17,16 @@
 				</div>
 				<el-button-group>
 					<!--					<el-button type="primary" :plain="!defaultValues.playing"  size="mini" @click="play" icon="el-icon-caret-right"></el-button>-->
-					<el-button type="primary" plain size="mini" @click="$emit('add')" icon="el-icon-plus"></el-button>
 					<!--			<button @click="playFrom">从这开始</button>-->
 				</el-button-group>
+			
 			</div>
 		</div>
 		<div class="ontop" style="margin-bottom: -10px;">
 			<el-slider
 					v-model="slides"
 					range
-					:step="0.1"
+					:step="1"
 					:max="duration"
 					@change="onSlide"
 			>
@@ -48,6 +49,7 @@
         required: true,
       },
       ratio: { type: [Number, Boolean] },
+      active: { type: [ Boolean] },
       defaultValues: {
         type: Object,
         required: true,
@@ -111,7 +113,6 @@
       
       },
       togglePlay(playing){
-        console.log('playing===',playing)
         this.$emit('togglePlay', this.start, this.end,playing);
       },
       playFrom(){
@@ -157,7 +158,7 @@
 		}
 	}
 	
-	.del {
+	.del,.addfromme {
 		color: #f2bbd1;
 		position: absolute;
 		background-color: #fff;
@@ -180,6 +181,9 @@
 			background-color: #f8a6ac;
 			
 		}
+	}
+	.addfromme{
+		right: 30px;
 	}
 	.ontop{
 		position: relative;
@@ -208,4 +212,5 @@
 			opacity: 0;
 		}
 	}
+
 </style>

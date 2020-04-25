@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return chrome.extension.getURL(val);
   };
   Vue.filter('time', (time: number | string) => {
-    return typeof time === 'number' ? time.toFixed(2) : time;
+    return typeof time === 'number' ? time.toFixed(0) : time;
   });
   Vue.filter('speed', (speed: number) => {
     return speed.toFixed(1);
