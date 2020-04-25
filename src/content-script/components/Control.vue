@@ -30,14 +30,6 @@
 				<el-button plain round type="primary"  @click="clear" icon="el-icon-delete"></el-button>
 			</template>
 		</el-button-group>
-<!--      <div>-->
-<!--        <h2>当前倍速: {{ speed | speed }}</h2>-->
-<!--        <button @click="$store.commit('SET_SPEED', i * 0.1)" v-for="i in 9">-->
-<!--          0.{{ i }}倍速-->
-<!--        </button>-->
-<!--        <button @click="$store.commit('SET_SPEED', 1)">原速</button>-->
-<!--      </div>-->
-<!--      <keymap></keymap>-->
     </div>
 </template>
 

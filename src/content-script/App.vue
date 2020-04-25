@@ -1,11 +1,33 @@
 <template>
-	<div class="fixed" >
-		<div v-if="config" class="wrapper " :class="{active:show}" >
-			<div class="monkey" :class="{active:show}" @click="show=!show"></div>
+	<div class="fixed ">
+		<div v-if="config" class="wrapper " :class="{ active: show }">
+			<!--money btn-->
+			<div class="leftbtns">
+				<div
+						class="monkey"
+						:class="{ active: show }"
+						@click="show = !show"
+				></div>
+				<div>
+					<el-button type="primary" round>播放</el-button>
+				</div>
+				<div v-for="i in ['0.3','0.5','0.7','0.9','1.0']">
+					<el-button @click="$store.commit('SET_SPEED', i)" size="middle" :plain="$store.state.speed!=i" round type="primary">x {{i}}</el-button>
+				</div>
 			
-<!--			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">-->
-<!--			</el-tooltip>-->
-			<el-card class="box-card panel" :body-style="{padding:'0 15px 100px',height:`calc(100% - 100px)`,overflowY:'scroll'}" >
+			
+			</div>
+			
+			<!--			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">-->
+			<!--			</el-tooltip>-->
+			<el-card
+					class="box-card panel"
+					:body-style="{
+          padding: '0 15px 100px 30px',
+          height: `calc(100% - 100px)`,
+          overflowY: 'scroll'
+        }"
+			>
 				<div v-if="video">
 					<control></control>
 				</div>
@@ -21,7 +43,6 @@
 </template>
 
 <script>
-  
   import { getVideoDom } from '../utils/bilibili';
   import Control from './components/Control';
   import { mapGetters, mapState } from 'vuex';
@@ -32,7 +53,7 @@
   import './main.less';
   
   Vue.use(ElementUI);
-  
+
   export default {
     name: 'App',
     components: { Control },
@@ -44,19 +65,16 @@
     },
     computed: {
       ...mapState(['config', 'list']),
-  ...mapGetters(['vid'])
+      ...mapGetters(['vid']),
     },
     mounted() {
       this.video = getVideoDom();
     },
-    methods: {
-
-    },
+    methods: {},
   };
 </script>
 
 <style scoped lang="less">
-	
 	.fixed {
 		position: fixed;
 		right: 0;
@@ -66,7 +84,7 @@
 	}
 	
 	.wrapper {
-		transition: all .5s linear;
+		transition: all 0.5s linear;
 		position: absolute;
 		right: -320px;
 		top: 0;
@@ -74,33 +92,43 @@
 		height: 100%;
 		
 		&.active {
-			transition: all .5s linear;
+			transition: all 0.5s linear;
 			transform: translate(-320px, 0);
 		}
 	}
 	
-	.monkey {
+	.leftbtns {
 		position: absolute;
-		padding: 30px;
 		left: -40px;
-		background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey.png');
+		z-index: 1002;
+		padding-top: 30px;
+		
+		> div {
+			margin-top: 15px;
+		}
+	}
+	
+	.monkey {
+		padding: 30px;
+		background-image: url("chrome-extension://__MSG_@@extension_id__/assets/monkey.png");
 		background-size: 60px 100%;
 		background-repeat: no-repeat;
-		transition: left 1s;
-		z-index: 1002;
 		
 		&:hover {
-			background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey-wu.png');
-			
+			background-image: url("chrome-extension://__MSG_@@extension_id__/assets/monkey-wu.png");
 		}
 	}
 	
 	.panel {
-		width: 100%;
+		position: relative;
+		width: 320px;
 		height: 100vh;
+		
 	}
 	
-
+	.el-button {
+		margin-left: -15px;
+	}
 </style>
 
 <style>
