@@ -34,4 +34,14 @@
 		margin-right: 15px;
 		margin-top: 40px;
 	}
+	
+	.info {
+		font-size: 14px;
+		line-height: 20px;
+		
+		a {
+			text-decoration: underline;
+			color: #f27991;
+		}
+	}
 </style>

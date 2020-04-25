@@ -13,7 +13,7 @@
 				</el-tooltip>
 				<template v-if="video">
 				<div >
-					<el-button @click="$store.commit('SET_PLAYING',!playing)" type="primary" round>{{playing?'暂停':'播放'}}</el-button>
+					<el-button :plain="!playing" @click="$store.commit('SET_PLAYING',!playing)" type="primary" round>{{playing?'暂停':'播放'}}</el-button>
 				</div>
 					<!--speed btns-->
 				<div v-for="i in speedList">
@@ -40,6 +40,12 @@
 					</el-button
 					>
 				</div>
+				<div>
+					<el-button type="primary" plain round @click="$store.commit('SET_SHOW_TYPE','info');show=true"
+					>信息
+					</el-button
+					>
+				</div>
 			
 			</div>
 			
@@ -56,10 +62,22 @@
 				<div v-if="showType==='list'">
 					<list></list>
 				</div>
-				<div v-else>
+				<div v-else-if="showType==='video'">
 					<control></control>
 				</div>
-		
+				<div v-else-if="showType==='info'">
+					<error class="info">
+						
+						<p>
+							Hi~ 这里是
+						
+						</p>
+						<p><b>Booooooooootle瓶子</b></p>
+						<p style="margin-top: 30px;"> 如果你对这个插件有任何问题, 欢迎给我提
+							<a href="https://github.com/vita2333/Chrome-extension-dance-monkey">issue</a>, 或者在B站私信我~</p>
+						<p style="margin-top: 30px;">感谢支持~ :)</p>
+					</error>
+				</div>
 			</el-card>
 		</div>
 		<div v-else>
@@ -87,7 +105,7 @@
     components: { Control ,List},
     data() {
       return {
-        show: true,
+        show: false,
         video: false,
       };
     },
@@ -166,4 +184,5 @@
 	/*[class*=" el-icon-"], [class^="el-icon-"] {*/
 	/*	font-size: 30px;*/
 	/*}*/
+
 </style>

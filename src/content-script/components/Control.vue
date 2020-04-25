@@ -36,27 +36,35 @@
       </div>
       
       <el-button-group class="btmbtns">
-        <el-button
+	      <el-tooltip content="保存这支扒舞~" effect="light" placement="top">
+		      <el-button
                 plain
                 icon="el-icon-document"
                 round
                 type="primary"
                 @click="save"
         ></el-button>
-        <el-button
+	      </el-tooltip>
+	      <el-tooltip content="从当前时间新建一个片段~" effect="light" placement="top">
+		
+		      <el-button
                 plain
                 round
                 type="primary"
                 @click="add"
                 icon="el-icon-plus"
         ></el-button>
-        <el-button
+	      </el-tooltip>
+	      <el-tooltip content="删除这支扒舞~" effect="light" placement="top">
+		
+		      <el-button
                 plain
                 round
                 type="primary"
                 @click="clear"
                 icon="el-icon-delete"
         ></el-button>
+	      </el-tooltip>
       </el-button-group>
     </div>
     <div v-else>
@@ -149,12 +157,14 @@
         // video already loaded
         this.getVideoReadyData();
       }
-      this.video.onplay = () => {
-        !this.playing ? this.playing = true : null;
-      };
-      this.video.onpause = () => {
-        this.playing ? this.playing = false : null;
-      };
+      if (this.video) {
+        this.video.onplay = () => {
+          !this.playing ? this.playing = true : null;
+        };
+        this.video.onpause = () => {
+          this.playing ? this.playing = false : null;
+        };
+      }
     },
     getVideoReadyData() {
       // get ratio

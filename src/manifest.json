@@ -1,11 +1,11 @@
 {
-  "name": "my-extension",
+  "name": "dance-monkey",
   "description": "A Vue.js web extension",
   "version": "0.0.1",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
+    "144": "icons/icon_144.png"
   },
   "permissions": [
     "contextMenus",
@@ -18,18 +18,12 @@
     "https://*/*"
   ],
   "browser_action": {
-    "default_title": "my-extension",
-    "default_popup": "popup/popup.html"
+    "default_title": "dance-monkey"
+
   },
   "background": {
     "scripts": ["background.js"]
   },
-  "options_ui": {
-    "page": "options/options.html",
-    "open_in_tab": true,
-    "chrome_style": true
-  },
-
   "content_scripts": [
     {
       "matches": [

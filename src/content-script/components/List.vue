@@ -7,7 +7,12 @@
 		</div>
 		<div v-else>
 			<error>
-				暂时还没有扒舞记录哦~
+				暂时还没有扒舞记录哦~ 点击
+				<el-button type="primary" size="mini" plain round @click="$store.commit('SET_SHOW_TYPE','video');"
+				>扒舞
+				</el-button
+				>
+				马上开始吧! 别忘了扒舞后要保存才会出现在这里哟~
 			</error>
 		</div>
 	</div>
