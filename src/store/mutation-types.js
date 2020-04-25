@@ -8,3 +8,4 @@ export const SET_LIST = 'SET_LIST';
 export const ADD_VID = 'ADD_VID';
 export const REMOVE_VID = 'REMOVE_VID';
 export const SET_SHOW_TYPE = 'SET_SHOW_TYPE';
+export const SET_PLAYING = 'SET_PLAYING';

@@ -73,12 +73,12 @@
   import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
+  import { SET_PLAYING } from '../../store/mutation-types';
   
   export default {
   components: { Keymap, ControlItem },
   data() {
     return {
-      playing: false,
       video: undefined,
       timer: undefined,
       items: false,
@@ -91,6 +91,16 @@
   },
   computed: {
     ...mapState(["speed", "config", "list"]),
+    playing: {
+      // getter
+      get: function() {
+        return this.$store.state.playing;
+      },
+      // setter
+      set: function(newValue) {
+        this.$store.commit(SET_PLAYING, newValue);
+      },
+    },
     ...mapGetters(["vid"]),
     defaultItems() {
       return [
@@ -111,6 +121,9 @@
       if (now != old) {
         this.getData();
       }
+    },
+    playing(now) {
+      this.togglePlay(now);
     }
   },
   mounted() {

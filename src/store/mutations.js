@@ -37,5 +37,7 @@ export default {
   },
   [types.SET_SHOW_TYPE](state, type) {
     state.showType = type;
+  },  [types.SET_PLAYING](state, type) {
+    state.playing = type;
   },
 };

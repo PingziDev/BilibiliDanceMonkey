@@ -10,7 +10,7 @@
 				></div>
 			<template v-if="showType==='video'">
 				<div >
-					<el-button type="primary" round>播放</el-button>
+					<el-button @click="$store.commit('SET_PLAYING',!playing)" type="primary" round>{{playing?'暂停':'播放'}}</el-button>
 				</div>
 				<div  v-for="i in ['0.3', '0.5', '0.7', '0.9', '1.0']">
 					<el-button
@@ -84,7 +84,7 @@
       };
     },
     computed: {
-      ...mapState(['config', 'list', 'showType']),
+      ...mapState(['config', 'list', 'showType','playing']),
       ...mapGetters(['vid']),
     },
     mounted() {

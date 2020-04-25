@@ -12,6 +12,7 @@ export default new Vuex.Store({
     foo: 'bar',
     speed: 1,
     config: false,
+    playing: false,
     url: location.href,
     list: false,
     showType:'video' // list , video

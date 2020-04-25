@@ -6,7 +6,7 @@ import store from './../store';
 import { getStorage, setStorage } from '../utils/storage';
 import { Commands, MessageObj, MessageType } from '../utils/types';
 import { FASTER, SET_CONFIG, SET_LIST, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
-import Error from './components/Error';
+import Error from './components/Error.vue';
 
 global.browser = require('webextension-polyfill');
 
