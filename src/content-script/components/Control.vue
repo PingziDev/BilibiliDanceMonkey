@@ -77,21 +77,20 @@
 </template>
 
 <script>
-import { getVideoDom } from "../../utils/bilibili";
-import Keymap from "./../components/Keymap";
-import ControlItem from "./../components/ControlItem";
-import { mapGetters, mapState } from "vuex";
-
-import { clearItems, getItems, saveItems } from "../../utils/storage";
-import { SET_CUREENT, SET_PLAYING } from "../../store/mutation-types";
-import { round } from "../../utils/utils";
-
-export default {
+  import { getVideoDom } from '../../utils/bilibili';
+  import Keymap from './../components/Keymap';
+  import ControlItem from './../components/ControlItem';
+  import { mapGetters, mapState } from 'vuex';
+  
+  import { clearItems, getItems, saveItems } from '../../utils/storage';
+  import { SET_CUREENT, SET_PLAYING } from '../../store/mutation-types';
+  import { round } from '../../utils/utils';
+  
+  export default {
   components: { Keymap, ControlItem },
   data() {
     return {
       video: undefined,
-      timer: undefined,
       items: false,
       duration: false,
       showList: false,
@@ -261,22 +260,23 @@ export default {
         this.items.forEach((v, i) => {
           v.playing = i === index;
         });
-        this.video.currentTime = start;
-        this.togglePlay(true);
-        if (this.timer) {
-          clearInterval(this.timer);
-        }
-        if (end) {
-          this.timer = setInterval(() => {
-            this.video.currentTime = start;
-          }, (end - start) * 1000);
-        }
+        this.playInterval(start, end);
+       
       } else {
         this.items[index].playing = false;
         this.togglePlay(false);
       }
     },
-    playInterval(start, end) {},
+    playInterval(start, end) {
+      this.video.currentTime = start;
+      this.video.ontimeupdate = () => {
+        if (this.video.currentTime > (end || this.video.duration)) {
+          this.video.currentTime = start;
+        }
+      };
+      this.togglePlay(true);
+    
+    },
     togglePlayItem(index, start, end, playing) {
       if (index !== this.active) {
         this.playItem(index, start, end);
