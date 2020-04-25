@@ -152,15 +152,17 @@
 
 <style scoped lang="less">
 	.item {
-		border: thick double #f8c8cd;
 		position: relative;
 		padding: 20px;
 		border-radius: 10px;
 		margin-top:  15px;
-		background: #fff;
+		background: #f5f5f5;
 		overflow: hidden;
+		border: thick double #f8eaf8;
 		
 		&.active {
+			border: thick double #f8c8cd;
+			
 			&:before {
 				content: '';
 				position: absolute;
@@ -172,6 +174,7 @@
 				background-image: url('chrome-extension://__MSG_@@extension_id__/assets/monkey.png');
 				background-size: cover;
 				z-index: 1000;
+				
 			}
 		}
 	}
@@ -186,7 +189,7 @@
 			top: -10px;
 			z-index: 1002;
 			border-radius: 50%;
-			border: thick double #f8c8cd;
+			border: 2px solid #f8eaf8;
 			
 			.icon {
 				position: absolute;

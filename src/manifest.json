@@ -1,5 +1,5 @@
 {
-  "name": "dance-monkey",
+  "name": "Dance Monkey Bilibili🎵",
   "description": "A Vue.js web extension",
   "version": "0.0.1",
   "manifest_version": 2,
@@ -18,7 +18,7 @@
     "https://*/*"
   ],
   "browser_action": {
-    "default_title": "dance-monkey"
+    "default_title": "Dance Monkey Bilibili🎵"
 
   },
   "background": {

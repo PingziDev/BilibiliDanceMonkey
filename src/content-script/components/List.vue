@@ -1,8 +1,9 @@
 <template>
 	<div>
+		<error>保存的扒舞都在这里~点击就可以打开 👏</error>
 		<div v-if="list&&Object.keys(list).length>0">
-			<el-card class="listitem" @click="goToVideo(k)" v-for="(i, k) in list">
-				<a>{{ i }}</a>
+			<el-card class="listitem" v-for="(i, k) in list">
+				<a @click="goToVideo(k)">{{ i }}</a>
 			</el-card>
 		</div>
 		<div v-else>
