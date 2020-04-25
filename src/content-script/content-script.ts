@@ -74,6 +74,7 @@ Vue.component(Error.name,Error)
           switch (request) {
             case Commands.faster:
               store.commit(FASTER);
+
               break;
             case Commands.slower:
               store.commit(SLOWER);

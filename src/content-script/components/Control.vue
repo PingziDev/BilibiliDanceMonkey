@@ -151,20 +151,22 @@
   methods: {
     getData() {
       this.video = getVideoDom();
-      // video not loaded
-      if (this.video.readyState < 4) {
-        this.video.addEventListener(
-                'loadedmetadata',
-          () => {
-            this.getVideoReadyData();
-          },
-                false,
-        );
-      } else {
-        // video already loaded
-        this.getVideoReadyData();
-      }
+  
       if (this.video) {
+        // video not loaded
+        if (this.video.readyState < 4) {
+          this.video.addEventListener(
+            'loadedmetadata',
+            () => {
+              this.getVideoReadyData();
+            },
+            false,
+          );
+        } else {
+          // video already loaded
+          this.getVideoReadyData();
+        }
+        
         this.video.onplay = () => {
           !this.playing ? this.playing = true : null;
         };

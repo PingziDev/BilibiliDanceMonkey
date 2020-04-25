@@ -29,4 +29,4 @@ export type ControlItem = {
 }
 
 
-export const speedList = [0.3, 0.5, 0.7, 0.9, 1];
+export const speedList = [1, 0.9, 0.7, 0.5, 0.3];

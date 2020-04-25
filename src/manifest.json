@@ -57,13 +57,13 @@
     },
     "last": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Left"
+        "default": "Alt+Shift+Up"
       },
       "description": "上一个片段"
     },
     "next": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Right"
+        "default": "Alt+Shift+Down"
       },
       "description": "下一个片段"
     }
