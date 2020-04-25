@@ -1,9 +1,10 @@
 <template>
 <div style="position: relative">
-	<span class="del times__btn" @click="$emit('del')"><span class="icon">x</span></span>
-	<div class="item" @click="play" :class="{active:defaultValues.playing}">
+	<span class="del " @click="$emit('del')"><span class="icon"><i class="el-icon-close"></i></span></span>
+	<div class="item" :class="{active:defaultValues.playing}">
 		<div class="w100 flex sb st ontop">
-			<canvas style="border-radius: 10px" class="canvas" ref="canvas"></canvas>
+			<i class="play__btn el-icon-caret-right" :class="{playing:defaultValues.playing}"></i>
+			<canvas @click="togglePlay(!defaultValues.playing)" style="border-radius: 10px" class="canvas" ref="canvas"></canvas>
 			<div class="flex col sb btm">
 				<div class="times__btn">
 					<span  @click="setStart()">{{start|time}}</span>
@@ -12,7 +13,7 @@
 				</div>
 				<el-button-group>
 					<!--					<el-button type="primary" :plain="!defaultValues.playing"  size="mini" @click="play" icon="el-icon-caret-right"></el-button>-->
-					<!--					<el-button type="primary" plain  size="mini" @click="$emit('add')" icon="el-icon-plus"></el-button>-->
+					<el-button type="primary" plain size="mini" @click="$emit('add')" icon="el-icon-plus"></el-button>
 					<!--			<button @click="playFrom">从这开始</button>-->
 				</el-button-group>
 			</div>
@@ -86,7 +87,7 @@
         if (this.start !== now) {
           this.start = now;
           this.$emit('start', this.start);
-          this.play();
+          this.togglePlay(true);
           this.snap();
         }
   
@@ -96,12 +97,13 @@
         if (this.end !== now) {
           this.end = now;
           this.$emit('end', this.end);
-          this.play();
+          this.togglePlay(true);
         }
       
       },
-      play() {
-        this.$emit('play', this.start, this.end);
+      togglePlay(playing){
+        console.log('playing===',playing)
+        this.$emit('togglePlay', this.start, this.end,playing);
       },
       playFrom(){
         this.$emit('play', this.start);
@@ -122,14 +124,15 @@
 
 <style scoped lang="less">
 	.item {
-		border-bottom: 1px solid #eee;
+		border: thick double #f8c8cd;
 		position: relative;
-		padding: 15px;
+		padding: 20px;
 		border-radius: 10px;
-		margin-bottom: 15px;
+		margin-top:  15px;
 		background: #fff;
 		overflow: hidden;
-	 &.active {
+		
+		&.active {
 			&:before {
 				content: '';
 				position: absolute;
@@ -149,17 +152,19 @@
 		color: #f2bbd1;
 		position: absolute;
 		background-color: #fff;
-		width: 30px;
-		height: 30px;
-		top: -15px;
-		right: -15px;
+		width: 20px;
+		height: 20px;
+		top: -10px;
+		right: -10px;
 		z-index: 1002;
 		border-radius: 50%;
+		border: thick double #f8c8cd;
+		
 		.icon{
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%, -55%);
+			transform: translate(-50%, -50%);
 		}
 		&:hover {
 			color: #fff;
@@ -177,5 +182,21 @@
 		font-size: 16px;
 		font-weight: bold;
 		text-shadow: #f88f97 1px 2px 3px;
+	}
+	
+	.canvas {
+		cursor: pointer;
+	}
+	
+	.play__btn {
+		font-size: 40px;
+		color: #fff;
+		position: absolute;
+		top: 8px;
+		opacity: .7;
+		
+		&.playing {
+			opacity: 0;
+		}
 	}
 </style>

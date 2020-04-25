@@ -1,10 +1,11 @@
 <template>
 	<div class="fixed" >
-		<div v-if="config" class="wrapper flex center" :class="{active:show}" >
-			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">
-				<div class="monkey" :class="{active:show}" @click="show=!show"></div>
-			</el-tooltip>
-			<el-card class="box-card panel" :body-style="{paddingLeft:'15px',paddingRight:'15px',background:'#f5f5f5',height:'100%'}" >
+		<div v-if="config" class="wrapper " :class="{active:show}" >
+			<div class="monkey" :class="{active:show}" @click="show=!show"></div>
+			
+<!--			<el-tooltip :content="show?'点我关闭哟~':'点我扒舞吧~'" placement="top" effect="light">-->
+<!--			</el-tooltip>-->
+			<el-card class="box-card panel" :body-style="{padding:'0 15px 100px',height:`calc(100% - 100px)`,overflowY:'scroll'}" >
 				<div v-if="video">
 					<control></control>
 				</div>
@@ -97,8 +98,6 @@
 	.panel {
 		width: 100%;
 		height: 100vh;
-		overflow-y: scroll;
-
 	}
 	
 
