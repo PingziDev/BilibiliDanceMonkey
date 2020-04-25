@@ -114,16 +114,17 @@
             <p style="margin-top: 30px;">感谢支持~ :)</p>
           </error>
           <error>
-            <p>
+	          <h3>
               快捷键一览:
-            </p>
+	          </h3>
+	          <p>全屏播放时此插件不再显示,可以通过键盘快捷键使用这些功能~</p>
             <div style="margin-top: 20px;">
               <p>windows:</p>
               <p><b> ctrl+shift+↑</b> <span>加速</span></p>
               <p><b> ctrl+shift+↓</b> <span>减速</span></p>
               <p><b> alt+shift+↑</b> <span>跳转上个片段</span></p>
               <p><b> alt+shift+↓</b> <span>跳转下个片段</span></p>
-              <p>mac</p>
+	            <p style="margin-top: 20px;">mac</p>
               <p><b> command+shift+↑</b> <span>加速</span></p>
               <p><b> command+shift+↓</b> <span>减速</span></p>
               <p><b> option+shift+↑</b> <span>跳转上个片段</span></p>
