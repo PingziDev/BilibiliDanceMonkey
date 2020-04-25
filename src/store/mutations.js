@@ -15,6 +15,9 @@ export default {
       state.currentItem = 0;
     }
   },
+  [types.SET_SPEED](state, payload) {
+    state.speed = payload;
+  },
   [types.FASTER](state) {
     const list = speedList;
     let index = speedList.indexOf(state.speed);

@@ -41,7 +41,7 @@
           <!--speed btns-->
           <div v-for="i in speedList" style="margin-left: 10px;">
             <el-button
-                    @click="$store.commit('LAST_NEXT', i)"
+                    @click="$store.commit('SET_SPEED', i)"
                     size="small"
                     :plain="$store.state.speed != i"
                     round

@@ -136,7 +136,7 @@
       this.togglePlay(now);
     },
     active(now, old) {
-      if (now !== old && this.items && this.items.length > 1) {
+      if (now !== undefined && now !== old && this.items && this.items.length > 1) {
         if (now > this.items.length - 1) {
           now = this.items.length - 1;
         }
