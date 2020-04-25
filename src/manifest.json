@@ -55,17 +55,17 @@
       },
       "description": "慢0.1倍速"
     },
-    "speed0.5": {
+    "last": {
       "suggested_key": {
         "default": "Ctrl+Shift+Left"
       },
-      "description": "0.5倍速"
+      "description": "上一个片段"
     },
-    "speed1": {
+    "next": {
       "suggested_key": {
         "default": "Ctrl+Shift+Right"
       },
-      "description": "原速"
+      "description": "下一个片段"
     }
   },
   "web_accessible_resources": [

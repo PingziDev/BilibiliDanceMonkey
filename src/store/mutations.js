@@ -6,8 +6,14 @@ export default {
   [types.UPDATE_FOO](state, payload) {
     state.foo = payload;
   },
-  [types.SET_SPEED](state, payload) {
-    state.speed = payload;
+  [types.SET_CUREENT](state, payload) {
+    state.currentItem = payload;
+  },
+  [types.LAST_NEXT](state, payload) {
+    state.currentItem += payload;
+    if (state.currentItem < 0) {
+      state.currentItem = 0;
+    }
   },
   [types.FASTER](state) {
     const list = speedList;

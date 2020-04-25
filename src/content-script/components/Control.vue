@@ -83,7 +83,7 @@
   import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
-  import { SET_PLAYING } from '../../store/mutation-types';
+  import { SET_CUREENT, SET_PLAYING } from '../../store/mutation-types';
   import { round } from '../../utils/utils';
   
   export default {
@@ -96,7 +96,6 @@
       duration: false,
       showList: false,
       loading: false,
-      active: false,
       // snapshot
       ratio: false
     };
@@ -113,17 +112,16 @@
         this.$store.commit(SET_PLAYING, newValue);
       },
     },
+    active: {
+      get: function() {
+        return this.$store.state.currentItem;
+      },
+      set: function(newValue) {
+        this.$store.commit(SET_CUREENT, newValue);
+      },
+    },
     ...mapGetters(["vid"]),
-    defaultItems() {
-      return [
-        {
-          start: this.video.currentTime,
-          end: this.duration,
-          playing: false,
-          canvasStr: false
-        }
-      ];
-    }
+
   },
   watch: {
     speed: function(now) {
@@ -136,6 +134,15 @@
     },
     playing(now) {
       this.togglePlay(now);
+    },
+    active(now, old) {
+      if (now !== old && this.items && this.items.length > 1) {
+        if (now > this.items.length - 1) {
+          now = this.items.length - 1;
+        }
+        const obj = this.items[now];
+        this.playItem(now, obj.start, obj.end, true);
+      }
     }
   },
   mounted() {
@@ -256,6 +263,8 @@
         this.items[index].playing = false;
         this.togglePlay(false);
       }
+    },
+    playInterval(start, end) {
     },
     togglePlayItem(index, start, end, playing) {
       if (index !== this.active) {

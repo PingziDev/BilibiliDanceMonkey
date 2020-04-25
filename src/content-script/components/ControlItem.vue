@@ -25,11 +25,11 @@
 			
 			<div class="flex col sb btm">
 				<div class="times__btn">
-					<el-tooltip content="点击设置为当前时间" effect="light" placement="top">
+					<el-tooltip content="点击设置为当前时间" effect="light">
 						<span @click="setStart()">{{start|time}}</span>
 					</el-tooltip>
 					-
-					<el-tooltip content="点击设置为当前时间" effect="light" placement="top">
+					<el-tooltip content="点击设置为当前时间" effect="light">
 						<span @click="setEnd()">{{end|time}}</span>
 					</el-tooltip>
 				</div>

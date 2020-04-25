@@ -18,9 +18,7 @@ export function sendMessageToContentScript(message: string | MessageObj, callbac
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log('message===', message);
     if (tabs[0].id) {
-      chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
-        if (callback) callback(response);
-      });
+      chrome.tabs.sendMessage(tabs[0].id, message);
     }
     });
 

@@ -1,5 +1,6 @@
 export const UPDATE_FOO = 'UPDATE_FOO';
-export const SET_SPEED = 'SET_SPEED';
+export const SET_CUREENT = 'SET_CUREENT';
+export const LAST_NEXT = 'LAST_NEXT';
 export const FASTER = 'FASTER';
 export const SLOWER = 'SLOWER';
 export const SET_CONFIG = 'SET_CONFIG';

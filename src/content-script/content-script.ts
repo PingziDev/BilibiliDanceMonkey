@@ -5,7 +5,7 @@ import { sendMessage } from './message';
 import store from './../store';
 import { getStorage, setStorage } from '../utils/storage';
 import { Commands, MessageObj, MessageType } from '../utils/types';
-import { FASTER, SET_CONFIG, SET_LIST, SET_SPEED, SET_URL, SLOWER } from '../store/mutation-types';
+import { FASTER, LAST_NEXT, SET_CONFIG, SET_LIST, SET_URL, SLOWER } from '../store/mutation-types';
 import Error from './components/Error.vue';
 
 global.browser = require('webextension-polyfill');
@@ -69,7 +69,7 @@ Vue.component(Error.name,Error)
 
       // 处理bg传来的命令
       chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-
+        console.log('request===', request);
         if (typeof request === 'string') {
           switch (request) {
             case Commands.faster:
@@ -78,11 +78,11 @@ Vue.component(Error.name,Error)
             case Commands.slower:
               store.commit(SLOWER);
               break;
-            case Commands.speed5:
-              store.commit(SET_SPEED, 0.5);
+            case Commands.last:
+              store.commit(LAST_NEXT, -1);
               break;
-            case Commands.speed1:
-              store.commit(SET_SPEED, 1);
+            case Commands.next:
+              store.commit(LAST_NEXT, 1);
               break;
             default:
           }
