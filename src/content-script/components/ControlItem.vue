@@ -57,12 +57,12 @@
       </div>
       <div class="ontop" style="margin-bottom: -10px;">
         <el-slider
-		        v-model="slides"
-		        range
-		        :step="1"
-		        :max="duration"
-		        @change="onSlide"
-		        :format-tooltip="val=>val.toFixed(0)"
+                v-model="slides"
+                range
+                :step="1"
+                :max="duration"
+                @change="onSlide"
+                :format-tooltip="val=>(val||0).toFixed(0)"
         >
         </el-slider>
       </div>
@@ -122,10 +122,10 @@ export default {
   },
   methods: {
     setStart(start) {
-      const now = start || this.video.currentTime || 0;
+      const now = start === 0 ? start : (start || this.video.currentTime || 0);
       if (this.start !== now) {
         this.start = now;
-        this.$emit("setItemTime", this.start, this.end);
+        this.$emit('setStart', this.start, this.end);
         this.snap();
       }
     },
@@ -133,7 +133,7 @@ export default {
       const now = end || this.video.currentTime || 0;
       if (this.end !== now) {
         this.end = now;
-        this.$emit("setItemTime", this.start, this.end);
+        this.$emit('setEnd', this.start, this.end);
       }
     },
     togglePlay(playing) {

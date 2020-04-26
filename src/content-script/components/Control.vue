@@ -3,20 +3,21 @@
     <div v-if="video" class="flex col center">
       <div class="w100" v-if="items && items.length > 0">
         <control-item
-          :key="i"
-          v-for="(v, i) in items"
-          :active="i === active"
-          :video="video"
-          :ratio="ratio"
-          :defaultValues="v"
-          :duration="duration"
-          @setItemTime="setItemTime(i, ...arguments)"
-          @togglePlay="togglePlayItem(i, ...arguments)"
-          @playfromme="playItem(i, ...arguments)"
-          @del="delItem(i)"
-          @add="addItem(i)"
-          @merge="merge(i, i - 1)"
-          @snap="val => (v.canvasStr = val)"
+		        :key="i"
+		        v-for="(v, i) in items"
+		        :active="i === active"
+		        :video="video"
+		        :ratio="ratio"
+		        :defaultValues="v"
+		        :duration="duration"
+		        @setStart="setStart(i, ...arguments)"
+		        @setEnd="setEnd(i, ...arguments)"
+		        @togglePlay="togglePlayItem(i, ...arguments)"
+		        @playfromme="playItem(i, ...arguments)"
+		        @del="delItem(i)"
+		        @add="addItem(i)"
+		        @merge="merge(i, i - 1)"
+		        @snap="val => (v.canvasStr = val)"
         ></control-item>
       </div>
       <div v-else>
@@ -281,10 +282,17 @@
       if (index !== this.active) {
         this.playItem(index, start, end);
       } else {
-        console.log("playing===", playing);
         this.items[index].playing = playing;
         this.togglePlay();
       }
+    },
+    setStart(index, start, end) {
+      console.log('start===', start);
+      this.setItemTime(index, start, end);
+    },
+    setEnd(index, start, end) {
+      //  todo buffer for end time
+      this.setItemTime(index, start, end);
     },
     setItemTime(index, start, end) {
       this.items[index].start = start;
