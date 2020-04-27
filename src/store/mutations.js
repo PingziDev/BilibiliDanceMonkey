@@ -1,6 +1,6 @@
-import * as types from "./mutation-types";
-import { setStorage } from "../utils/storage";
-import { speedList } from "../utils/types";
+import * as types from './mutation-types';
+import { setStorage } from '../utils/storage';
+import { speedList } from '../utils/types';
 
 export default {
   [types.UPDATE_FOO](state, payload) {
@@ -37,7 +37,8 @@ export default {
     state.speed = list[index];
   },
   [types.SET_CONFIG](state, payload) {
-    state.config = payload;
+    state.config = payload || state.config;
+    setStorage('config', state.config);
   },
   [types.SET_URL](state, payload) {
     state.url = payload;
@@ -61,5 +62,5 @@ export default {
   },
   [types.SET_PLAYING](state, type) {
     state.playing = type;
-  }
+  },
 };

@@ -27,7 +27,7 @@
               >扒舞
             </el-button>
           </div>
-          <div style="margin-left: 10px;">
+          <div v-if="showSpeedBtns" style="margin-left: 10px;">
             <el-button
               :plain="!playing"
               @click="$store.commit('SET_PLAYING', !playing)"
@@ -38,7 +38,7 @@
             </el-button>
           </div>
           <!--speed btns-->
-          <div v-for="i in speedList" style="margin-left: 10px;">
+          <div v-if="showSpeedBtns" v-for="i in speedList" style="margin-left: 10px;">
             <el-button
               @click="$store.commit('SET_SPEED', i)"
               size="small"
@@ -141,18 +141,18 @@
 </template>
 
 <script>
-import Control from "./components/Control";
-import { mapGetters, mapState } from "vuex";
-import ElementUI from "element-ui";
-import Vue from "vue";
-// import 'element-ui/lib/theme-chalk/index.css';
-import "../element/index.css";
-import "./main.less";
-import List from "./components/List";
-import { speedList } from "../utils/types";
-import { getVideoDom } from "../utils/bilibili";
-
-Vue.use(ElementUI);
+  import Control from './components/Control';
+  import { mapGetters, mapState } from 'vuex';
+  import ElementUI from 'element-ui';
+  import Vue from 'vue';
+  // import 'element-ui/lib/theme-chalk/index.css';
+  import '../element/index.css';
+  import './main.less';
+  import List from './components/List';
+  import { speedList } from '../utils/types';
+  import { getVideoDom } from '../utils/bilibili';
+  
+  Vue.use(ElementUI);
 
 export default {
   name: "App",
@@ -165,7 +165,7 @@ export default {
   },
   computed: {
     ...mapState(["config", "list", "showType", "playing"]),
-    ...mapGetters(["vid"]),
+    ...mapGetters(['vid', 'showSpeedBtns']),
     speedList() {
       return speedList;
     }

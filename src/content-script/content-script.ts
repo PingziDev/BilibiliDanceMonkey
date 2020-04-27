@@ -1,19 +1,12 @@
-import "./content-script.css";
-import Vue from "vue";
-import App from "./App.vue";
-import { sendMessage } from "./message";
-import store from "./../store";
-import { getStorage, setStorage } from "../utils/storage";
-import { Commands, MessageObj, MessageType } from "../utils/types";
-import {
-  FASTER,
-  LAST_NEXT,
-  SET_CONFIG,
-  SET_LIST,
-  SET_URL,
-  SLOWER
-} from "../store/mutation-types";
-import Error from "./components/Error.vue";
+import './content-script.css';
+import Vue from 'vue';
+import App from './App.vue';
+import { sendMessage } from './message';
+import store from './../store';
+import { getStorage } from '../utils/storage';
+import { Commands, MessageObj, MessageType } from '../utils/types';
+import { FASTER, LAST_NEXT, SET_CONFIG, SET_LIST, SET_URL, SLOWER } from '../store/mutation-types';
+import Error from './components/Error.vue';
 
 global.browser = require("webextension-polyfill");
 
@@ -57,15 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mounted() {
       // 默认设置
       getStorage("config").then(res => {
-        if (res) {
           return this.$store.commit(SET_CONFIG, res);
-        }
-        const config = {
-          bufferTime: 4,
-          captureW: 100
-        };
-        setStorage("config", config);
-        return this.$store.commit(SET_CONFIG, config);
       });
 
       // 以前的数据

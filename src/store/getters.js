@@ -11,3 +11,5 @@ export const vid = state => {
   }
   return temp;
 };
+
+export const showSpeedBtns = state => (state.config || {}).showSpeedBtns;

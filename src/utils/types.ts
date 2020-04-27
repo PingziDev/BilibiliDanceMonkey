@@ -1,6 +1,7 @@
 export type Config = {
   bufferTime: number;
   captureW: number;
+  showSpeedBtns: boolean
 };
 
 export enum Commands {

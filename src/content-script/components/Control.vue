@@ -46,7 +46,7 @@
 	    >新建
 	    </el-button>
       <el-button-group class="btmbtns">
-	      <el-tooltip content="显示速度按钮~" effect="light" placement="top">
+	      <el-tooltip :content="'开关播放控制按钮~'" effect="light" placement="top">
 		      <el-button
 				      :plain="!showSpeedBtns"
 				      round
@@ -90,7 +90,7 @@
   import { mapGetters, mapState } from 'vuex';
   
   import { clearItems, getItems, saveItems } from '../../utils/storage';
-  import { SET_CUREENT, SET_PLAYING } from '../../store/mutation-types';
+  import { SET_CONFIG, SET_CUREENT, SET_PLAYING } from '../../store/mutation-types';
   import { round } from '../../utils/utils';
   
   export default {
@@ -102,7 +102,6 @@
       duration: false,
       showList: false,
       loading: false,
-      showSpeedBtns: false,
       // snapshot
       ratio: false
     };
@@ -126,6 +125,16 @@
       set: function(newValue) {
         this.$store.commit(SET_CUREENT, newValue);
       }
+    },
+    showSpeedBtns: {
+      get: function() {
+        return this.$store.state.config.showSpeedBtns;
+      },
+      set: function(newValue) {
+        this.$store.commit(SET_CONFIG, {
+          ...this.$store.state.config, showSpeedBtns: newValue,
+        });
+      },
     },
     ...mapGetters(["vid"])
   },
@@ -203,7 +212,6 @@
         });
       }
       this.items = temp;
-      console.log("thisItems===", this.items);
     },
     togglePlay(playing) {
       this.playing = playing === undefined ? !this.playing : playing;
