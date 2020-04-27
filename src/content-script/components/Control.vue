@@ -19,7 +19,6 @@
 		        @merge="merge(i, i - 1)"
 		        @snap="val => (v.canvasStr = val)"
         >
-	        {{i}}
         </control-item>
       </div>
       <div v-else>
@@ -36,8 +35,26 @@
           新建一个吧~
         </error>
       </div>
-
+	    <el-button
+			    style="margin-top: 15px;width: 100%;"
+			    plain
+			    round
+			    block
+			    type="primary"
+			    @click="add"
+			    icon="el-icon-plus"
+	    >新建
+	    </el-button>
       <el-button-group class="btmbtns">
+	      <el-tooltip content="显示速度按钮~" effect="light" placement="top">
+		      <el-button
+				      :plain="!showSpeedBtns"
+				      round
+				      type="primary"
+				      @click="toggleSpeedBtns"
+				      icon="el-icon-view"
+		      ></el-button>
+	      </el-tooltip>
         <el-tooltip content="保存这支扒舞~" effect="light" placement="top">
           <el-button
             plain
@@ -45,19 +62,6 @@
             round
             type="primary"
             @click="save"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          content="从当前时间新建一个片段~"
-          effect="light"
-          placement="top"
-        >
-          <el-button
-            plain
-            round
-            type="primary"
-            @click="add"
-            icon="el-icon-plus"
           ></el-button>
         </el-tooltip>
         <el-tooltip content="删除这支扒舞~" effect="light" placement="top">
@@ -98,6 +102,7 @@
       duration: false,
       showList: false,
       loading: false,
+      showSpeedBtns: false,
       // snapshot
       ratio: false
     };
@@ -324,6 +329,9 @@
       };
       this.setItemTime(last, newItem.start, newItem.end);
       this.items.splice(me, 1);
+    },
+    toggleSpeedBtns() {
+      this.showSpeedBtns = !this.showSpeedBtns;
     }
   }
 };
