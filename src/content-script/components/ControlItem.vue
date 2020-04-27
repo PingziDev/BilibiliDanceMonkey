@@ -224,7 +224,8 @@ export default {
   right: 30px;
 }
 .addfromme {
-  right: 110px;
+  right: -10px;
+  top: 30px !important;
 }
 
 .merge {

@@ -18,7 +18,9 @@
 		        @add="addItem(i)"
 		        @merge="merge(i, i - 1)"
 		        @snap="val => (v.canvasStr = val)"
-        ></control-item>
+        >
+	        {{i}}
+        </control-item>
       </div>
       <div v-else>
         <error>
@@ -238,7 +240,7 @@
 
       if (round(start) >= round(duration)) {
         this.$notify({
-          title: "超出视频时长,不能再添加片段了哟~!",
+          title: '已经到视频最后了哦~',
           type: "error"
         });
 
@@ -252,8 +254,8 @@
         end: duration,
         canvasStr: ""
       };
-      this.items.push(newItem);
-      this.playItem(this.items.length - 1, newItem.start, newItem.end);
+      this.items.splice(index + 1, 0, newItem);
+      this.playItem(index + 1, newItem.start, newItem.end);
     },
     playItem(index, start, end, playing = true) {
       this.active = index;
