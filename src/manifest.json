@@ -1,15 +1,17 @@
 {
   "name": "Dance Monkey 扒舞猴子🎵",
   "description": "B站舞蹈区扒舞神器~做一只快落的Dance Monkey吧!",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
     "144": "icons/icon_144.png"
   },
   "permissions": ["tabs", "storage", "*://*.bilibili.com/*"],
-  "browser_action": {
-    "default_title": "Dance Monkey Bilibili🎵"
+  "page_action": {
+    "default_icon": "icons/icon_48.png",
+    "default_title": "Dance Monkey 扒舞猴子音乐",
+    "default_popup": "popup/popup.html"
   },
   "background": {
     "scripts": ["background.js"]
