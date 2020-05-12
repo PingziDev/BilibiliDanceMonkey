@@ -1,5 +1,5 @@
-import { sendMessageToContentScript } from "./utils/message";
-import { MessageObj, MessageType } from "./utils/types";
+import { sendMessageToContentScript } from './utils/message';
+import { MessageObj, MessageType } from './utils/types';
 
 global.browser = require("webextension-polyfill");
 
@@ -38,4 +38,8 @@ chrome.runtime.onInstalled.addListener(function() {
       });
     }
   });
+
+
 });
+
+

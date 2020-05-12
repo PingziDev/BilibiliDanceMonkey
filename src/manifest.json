@@ -7,7 +7,11 @@
     "48": "icons/icon_48.png",
     "144": "icons/icon_144.png"
   },
-  "permissions": ["tabs", "storage", "*://*.bilibili.com/*"],
+  "permissions": [
+    "tabs",
+    "storage",
+    "*://*.bilibili.com/*"
+  ],
   "page_action": {
     "default_icon": "icons/icon_48.png",
     "default_title": "Dance Monkey 扒舞猴子音乐",
