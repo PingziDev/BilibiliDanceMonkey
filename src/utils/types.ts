@@ -1,7 +1,12 @@
 export type Config = {
   bufferTime: number;
-  captureW: number;
   showSpeedBtns: boolean
+};
+
+
+export const DefaultConfig: Config = {
+  bufferTime: 4,
+  showSpeedBtns: true,
 };
 
 export enum Commands {

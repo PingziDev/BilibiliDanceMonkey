@@ -108,8 +108,9 @@ export default {
     this.slides = [this.start, this.end];
     this.canvas = this.$refs.canvas;
     this.context = this.canvas.getContext("2d");
-    this.canvas.width = this.$store.state.config.captureW;
+    this.canvas.width = 100;
     this.canvas.height = parseInt(this.canvas.width / this.ratio, 10);
+    console.log('thisCanvas===', this.canvas);
     if (this.defaultValues.canvasStr) {
       let img = new Image();
       img.onload = () => {
