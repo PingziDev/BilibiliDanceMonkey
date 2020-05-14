@@ -1,11 +1,11 @@
 {
   "name": "Dance Monkey 扒舞猴子🎵",
-  "description": "B站舞蹈区扒舞神器~做一只快落的Dance Monkey吧!",
-  "version": "1.0.1",
+  "description": "B站舞蹈区扒舞神器~做一只快乐的Dance Monkey吧!",
+  "version": "1.0.5",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
-    "144": "icons/icon_144.png"
+    "128": "icons/icon_128.png"
   },
   "permissions": [
     "tabs",
