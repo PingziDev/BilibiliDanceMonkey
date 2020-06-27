@@ -14,7 +14,8 @@
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
-    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
+    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
+    "release": "git subtree push --prefix dist-zip origin release"
   },
   "dependencies": {
     "@types/chrome": "^0.0.104",
