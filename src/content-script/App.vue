@@ -1,17 +1,17 @@
 <template>
   <div class="fixed ">
-    <div v-if="config" class="wrapper " :class="{ active: show }">
-      <!--money btn-->
-      <div class="leftbtns">
+    <div v-if="config" class="side-bar-wrapper " :class="{ active: show }">
+      <!--monkey btn-->
+      <div class="left-btns">
         <el-tooltip
-          content="Hi~I'm Dance Monkey🎵!"
-          effect="light"
-          placement="top"
+                content="Hi~I'm Dance Monkey🎵!"
+                effect="light"
+                placement="top"
         >
           <div
-            class="monkey"
-            :class="{ active: show }"
-            @click="show = !show"
+                  class="monkey"
+                  :class="{ active: show }"
+                  @click="show = !show"
           ></div>
         </el-tooltip>
         <template v-if="video">
@@ -186,26 +186,26 @@ export default {
   height: 100vh;
 }
 
-.wrapper {
+.side-bar-wrapper {
   transition: all 0.5s linear;
   position: absolute;
   right: -320px;
   top: 0;
   width: 320px;
   height: 100%;
-
+  
   &.active {
     transition: all 0.5s linear;
     transform: translate(-320px, 0);
   }
 }
 
-.leftbtns {
+.left-btns {
   position: absolute;
   left: -40px;
   z-index: 1002;
   padding-top: 30px;
-
+  
   > div {
     margin-top: 15px;
   }
