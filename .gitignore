@@ -1,7 +1,6 @@
 /node_modules
 /*.log
 /dist
-/dist-zip
 ### Example user template template
 ### Example user template
 
@@ -10,3 +9,4 @@
 *.iml
 out
 gen
+dist-zip/.DS_Store
